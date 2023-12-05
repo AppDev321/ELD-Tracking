@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name"> DOPASI Transportation</string>
+    <string name="an_error_occurred">An error occured</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+    <string name="please_enter_description">Please enter description</string>
+    <string name="permission">Permission</string>
+    <string name="grant_permission_from_settings">You will be redirected to settings to grant permission</string>
+    <string name="open_settings">Open Settings</string>
+</resources>

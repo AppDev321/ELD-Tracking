@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <style name="AlertDialogBaseTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@color/alert_dialog_bg</item>
+        <item name="colorAccent">@color/dialog_box_text_and_control_color</item>
+        <item name="android:colorAccent">@color/dialog_box_text_and_control_color</item>
+        <item name="android:textColor">@color/dialog_box_text_and_control_color</item>
+        <item name="android:textColorPrimary">@color/dialog_box_text_and_control_color</item>
+        <item name="android:textColorAlertDialogListItem">@color/dialog_box_text_and_control_color</item>
+        <item name="android:colorControlNormal">@color/dialog_box_text_and_control_color</item>
+        <item name="android:colorControlActivated">@color/dialog_box_text_and_control_color</item>
+        <item name="android:minWidth">100dp</item>
+        <item name="colorControlNormal">@color/dialog_box_text_and_control_color</item>
+        <item name="colorControlActivated">@color/dialog_box_text_and_control_color</item>
+        <item name="textColorAlertDialogListItem">@color/dialog_box_text_and_control_color</item>
+        <item name="buttonBarNegativeButtonStyle">@style/PositiveNegativeButtons</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveNegativeButtons</item>
+    </style>
+    <style name="RadioButtonsTheme" parent="AlertDialogBaseTheme"/>
+    <style name="styleMultiChoiceDialog" parent="AlertDialogBaseTheme"/>
+    <style name="PositiveNegativeButtons" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/dialog_box_text_and_control_color</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>
