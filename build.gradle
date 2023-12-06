@@ -1,9 +1,21 @@
+
+buildscript {
+    repositories {
+        google()
+    }
+    dependencies {
+        //NAvigation
+        def nav_version = "2.7.5"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+    }
+}
+
 plugins {
     id 'com.android.application' version '8.1.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
 
     //Hilt integration
-    id 'com.google.dagger.hilt.android' version '2.44' apply false
+    id 'com.google.dagger.hilt.android' version "2.48" apply false
 }
 ext {
     localProperties = new Properties()
@@ -17,3 +29,4 @@ ext.hasLocalProperty = { value ->
 }
 ext.enableAppLogger = project.hasProperty('enableAppLogger') ? project.property('enableAppLogger') :
         (rootProject.hasLocalProperty('enableAppLogger')?rootProject.getLocalProperty('enableAppLogger'): false)
+

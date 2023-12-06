@@ -22,7 +22,7 @@ class CoroutinesSplashActivity : AppCompatActivity() {
 
         activityScope.launch {
             delay(2000)
-            val intent = Intent(this@CoroutinesSplashActivity, WebActivity::class.java)
+            val intent = Intent(this@CoroutinesSplashActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
         }

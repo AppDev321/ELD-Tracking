@@ -8,5 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dialog_box_text_and_control_color">#000000</color>
-    <color name="alert_dialog_bg">#fff</color>
+    <color name="alert_dialog_bg">#FFFFFF</color>
+    <color name="alert_dialog_progress_bg">#FFFFFF</color>
+    <color name="alert_dialog_progress">#03A9F4</color>
+    <color name="transparency_20">#85000000</color>
 </resources>
