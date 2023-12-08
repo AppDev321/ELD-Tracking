@@ -103,5 +103,9 @@ dependencies {
     //Permission
     implementation 'com.karumi:dexter:6.2.3'
 
+    //WorkManager
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
 
+    //Startup
+    implementation "androidx.startup:startup-runtime:1.1.1"
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_activity_nav"
-    app:startDestination="@id/movieFragment">
+    app:startDestination="@id/move_to_web_view_screen">
     <fragment
         android:id="@+id/movieFragment"
         android:name="com.dopsi.webapp.fragment.MovieFragment"
@@ -25,4 +25,10 @@
         android:id="@+id/secondFragment"
         android:name="com.dopsi.webapp.fragment.SecondFragment"
         tools:layout="@layout/fragment_movie" />
+
+
+    <fragment
+        android:id="@+id/move_to_web_view_screen"
+        android:name="com.dopsi.webapp.fragment.WebViewFragment"
+        tools:layout="@layout/fragment_web_view" />
 </navigation>

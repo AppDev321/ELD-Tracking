@@ -13,9 +13,9 @@ import com.core.utils.Inflate
 abstract class BaseActivity<VB : ViewBinding>(private val inflate: Inflate<VB>) :  AppCompatActivity(),
     NetworkInterface {
 
-    private var _binding: ViewBinding? = null
+    private var _binding: VB? = null
     protected val viewDataBinding: VB
-        get() = _binding as VB
+        get() = _binding!!
 
     protected abstract fun initUserInterface()
     override fun attachBaseContext(newBase: Context?) {

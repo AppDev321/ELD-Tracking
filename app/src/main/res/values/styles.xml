@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-
-    <style name="AlertDialogBaseTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+  <style name="AlertDialogBaseTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@color/alert_dialog_bg</item>
         <item name="colorAccent">@color/dialog_box_text_and_control_color</item>
         <item name="android:colorAccent">@color/dialog_box_text_and_control_color</item>

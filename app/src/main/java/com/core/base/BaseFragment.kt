@@ -17,11 +17,11 @@ import com.core.utils.ResourceHelper
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fragment() {
-    private var _binding: ViewBinding? = null
+    private var _binding: VB? = null
 
     @Suppress("UNCHECKED_CAST")
     protected val viewDataBinding: VB
-        get() = _binding as VB
+        get() = _binding!!
 
 
     @Inject

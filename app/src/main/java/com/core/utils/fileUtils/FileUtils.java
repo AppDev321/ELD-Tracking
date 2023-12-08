@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
+import com.core.BaseApplication;
 import com.core.utils.AppLogger;
 import com.core.utils.MimeTypeUtil;
 import com.core.utils.Utils;
@@ -26,11 +27,13 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.text.StringCharacterIterator;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import static com.core.utils.fileUtils.CacheHelper.TAG;
 import static com.core.utils.fileUtils.CacheHelper.getAppPrivateDir;
@@ -45,15 +48,8 @@ public class FileUtils {
     public static final SimpleDateFormat IMAGE_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
     private static final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
 
-    /**
-     * Get a file path from a Uri. This will get the the path for Storage Access
-     * Framework Documents, as well as the _data field for the MediaStore and
-     * other file-based ContentProviders.
-     *
-     * @param context The context.
-     * @param uri     The Uri to query.
-     * @author paulburke
-     */
+    private static final String FILE_PROVIDER = ".files";
+    private static final Boolean ONLY_INTERNAL_STORAGE =  false;
     @SuppressLint("NewApi")
     public static String getPath(final Context context, final Uri uri) {
         if (uri == null) {
@@ -468,5 +464,79 @@ public class FileUtils {
 
         File file = new File(filePath);
         return (file != null && file.exists()) ? true : false;
+    }
+
+    public static Uri getTakePhotoUri( Context context) {
+        File file;
+        if (ONLY_INTERNAL_STORAGE) {
+            file = new File(context.getCacheDir().getAbsolutePath(), "Camera/IMG_" + FileUtils.IMAGE_DATE_FORMAT.format(new Date()) + ".jpg");
+        } else {
+            file = new File(getTakePhotoPath(context) + "IMG_" + FileUtils.IMAGE_DATE_FORMAT.format(new Date()) + ".jpg");
+        }
+        file.getParentFile().mkdirs();
+        return getUriForFile(context, file);
+    }
+
+    public static File getTakePhotoFile( Context context) {
+        File file;
+        if (ONLY_INTERNAL_STORAGE) {
+            file = new File(context.getCacheDir().getAbsolutePath(), "Camera/IMG_" + FileUtils.IMAGE_DATE_FORMAT.format(new Date()) + ".jpg");
+        } else {
+            file = new File(getTakePhotoPath(context) + "IMG_" + FileUtils.IMAGE_DATE_FORMAT.format(new Date()) + ".jpg");
+        }
+        file.getParentFile().mkdirs();
+        return file;
+    }
+
+
+    private static String getTakePhotoPath(Context context) {
+        if (Utils.INSTANCE.getAndroidQAndAbove())
+            return getTakePicImagesDir(context);
+        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Camera/";
+    }
+    public static String getTakePicImagesDir(Context context) {
+        String path = getFileDirectory(context, "Images");
+        File imagesDir = new File(path);
+        if (!imagesDir.exists()) {
+            imagesDir.mkdirs();
+        }
+        return path + "/";
+    }
+    public static Uri getUriForUri(Context context, Uri uri) {
+        if ("file".equals(uri.getScheme())) {
+            return getUriForFile(context, new File(uri.getPath()));
+        } else {
+            return uri;
+        }
+    }
+
+    public static Uri getUriForFile(Context context, File file) {
+        if (Utils.INSTANCE.getAndroidNougatAndAbove() || ONLY_INTERNAL_STORAGE) {
+            try {
+                return FileProvider.getUriForFile(context, getAuthority(context), file);
+            } catch (IllegalArgumentException e) {
+                if (Utils.INSTANCE.getAndroidNougatAndAbove()) {
+                    throw new SecurityException(e);
+                } else {
+                    return Uri.fromFile(file);
+                }
+            }
+        } else {
+            return Uri.fromFile(file);
+        }
+    }
+    public static String getAuthority(Context context) {
+        return context.getPackageName() + FILE_PROVIDER;
+    }
+
+    public static String getFileDirectory(Context context, final String type) {
+        if (ONLY_INTERNAL_STORAGE) {
+            if (context != null)
+                return context.getFilesDir().getAbsolutePath() + "/" + type + "/";
+            return
+            BaseApplication.instance.getFilesDir().getAbsolutePath() + "/" + type + "/";
+        } else {
+            return CacheHelper.getScrambleMediaFolder() + "/" + BaseApplication.instance.getString(R.string.app_name) + " " + type + "/";
+        }
     }
 }
