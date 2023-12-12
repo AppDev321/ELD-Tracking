@@ -16,5 +16,4 @@ object NetworkModule {
     fun provideApiService(networkProvider: NetworkProvider) =
         networkProvider.create(ApiServiceInterface::class.java)
 
-
 }

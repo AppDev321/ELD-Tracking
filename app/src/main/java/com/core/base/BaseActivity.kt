@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.core.BaseApplication
 import com.core.interfaces.NetworkInterface
+import com.core.service.socket.SocketManager
 import com.core.utils.Inflate
+import javax.inject.Inject
 
 abstract class BaseActivity<VB : ViewBinding>(private val inflate: Inflate<VB>) :  AppCompatActivity(),
     NetworkInterface {
@@ -18,6 +20,10 @@ abstract class BaseActivity<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         get() = _binding!!
 
     protected abstract fun initUserInterface()
+
+    /*@Inject
+    lateinit var socketManager: SocketManager*/
+
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(BaseApplication.instance)
     }
@@ -28,6 +34,8 @@ abstract class BaseActivity<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         _binding = inflate.invoke(layoutInflater)
         setContentView(requireNotNull(_binding).root)
         initUserInterface()
+
+     //   socketManager.connect()
     }
 
     override fun onDestroy() {
