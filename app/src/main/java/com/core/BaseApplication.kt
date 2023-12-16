@@ -18,6 +18,7 @@ import com.core.service.FirebaseStartup
 import com.core.utils.AppLogger
 import com.core.utils.PreferenceManager
 import com.core.utils.fileUtils.FileUtils
+import com.pt.devicemanager.App
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,14 +27,14 @@ import javax.inject.Inject
 
 
 @HiltAndroidApp
-class BaseApplication: Application() /*, androidx.lifecycle.DefaultLifecycleObserver */{
+class BaseApplication: App() /*, androidx.lifecycle.DefaultLifecycleObserver */{
     companion object {
         lateinit var instance: BaseApplication
     }
     @Inject
     lateinit var preferenceManager : PreferenceManager
     override fun onCreate() {
-        super<Application>.onCreate()
+        super<App>.onCreate()
 
         instance = this
         AppLogger.initializeLogging(

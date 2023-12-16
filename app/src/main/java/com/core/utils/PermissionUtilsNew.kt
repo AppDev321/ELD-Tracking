@@ -168,6 +168,15 @@ object PermissionUtilsNew {
         return permissionList
     }
 
+
+
+    fun getBluetoothPermissionList(): List<String> {
+        val permissionList: MutableList<String> = ArrayList()
+        permissionList.add(Manifest.permission.BLUETOOTH_CONNECT)
+        permissionList.add(Manifest.permission.BLUETOOTH_SCAN)
+        return permissionList
+    }
+
     /**
      * Checks if Manifest.permission.BLUETOOTH is granted
      * **/
@@ -266,7 +275,7 @@ object PermissionUtilsNew {
         activity: Activity,
         listener: DialogManager.AlertDialogListener? = null
     ) {
-        DialogManager().twoButtonDialog(
+        com.core.utils.DialogManager().twoButtonDialog(
             context = activity,
             title = activity.getString(R.string.permission),
             message = activity.getString(R.string.grant_permission_from_settings),

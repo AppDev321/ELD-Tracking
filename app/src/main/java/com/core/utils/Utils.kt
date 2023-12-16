@@ -1,7 +1,9 @@
 package com.core.utils
 
 import android.Manifest
+import android.bluetooth.BluetoothManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -17,6 +19,9 @@ import android.text.Html
 import android.text.Spanned
 import android.text.TextUtils
 import android.webkit.MimeTypeMap
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.getSystemService
 import androidx.core.text.HtmlCompat
 import com.core.extensions.empty
 import com.core.extensions.safeGet
@@ -398,5 +403,16 @@ object Utils {
             Html.fromHtml(htmlString)
         }
     }
+
+     fun isBluetoothSupported(context: Context) :Boolean {
+         return context.packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)
+    }
+
+     fun isBluetoothEnabled(context:Context): Boolean {
+        val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        val adapter = bluetoothManager.adapter
+        return adapter != null && adapter.isEnabled
+    }
+
 
 }

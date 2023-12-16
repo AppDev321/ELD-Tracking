@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId "com.dopsi.webapp"
-        minSdk 24
+        minSdk 28
 
         versionCode 1
         versionName "1.0"
@@ -110,4 +110,17 @@ dependencies {
 
     //Startup
     implementation "androidx.startup:startup-runtime:1.1.1"
+
+    implementation project(path: ":eldSdk")
+    //pt-sdk
+    implementation project(':pt-sdk-release')
+
+
+    // Nordic
+    implementation 'no.nordicsemi.android.support.v18:scanner:1.6.0'
+    implementation 'no.nordicsemi.android:log:2.3.0'
+    implementation 'no.nordicsemi.android:ble-common:2.7.2'
+
+    implementation 'commons-net:commons-net:20030805.205232'
+    implementation 'com.google.code.gson:gson:2.10.1'
 }

@@ -1,0 +1,98 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.firebase.crashlytics'
+
+android {
+  /*  signingConfigs {
+        config {
+            storeFile file('../../keystore/pt-release.jks')
+            keyAlias cert_alias
+            storePassword cert_pwd
+            keyPassword cert_pwd
+        }
+    }*/
+    compileSdk 34
+
+    defaultConfig {
+       // applicationId "com.pt.devicemanager"
+        //minSdkVersion 28
+        targetSdkVersion 34
+        // SDK MM.mm.nn-pp,App MM.mm.nn-pp
+        versionName "6.9.0/6.9.0"
+        versionCode 44
+        buildConfigField('String', 'API_KEY', "\"Gaqhi76Ztn62XcLW5tZcA8ubHVWMYqbRaSK6icQ9\"")
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            jniDebuggable false
+        }
+        debug {
+            // Only use this flag on builds you don't proguard or upload to beta-by-crashlytics
+            //ext.alwaysUpdateBuildId = false
+        }
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    namespace 'com.pt.devicemanager'
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    // firebase
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')
+
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-auth'
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation "androidx.core:core:1.12.0"
+    // for permissions
+    implementation "androidx.activity:activity:1.8.1"
+    implementation "androidx.fragment:fragment:1.6.2"
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.preference:preference:1.2.1'
+
+    implementation 'com.google.android.material:material:1.12.0-alpha01'
+
+    //pt-sdk
+    implementation project(':pt-sdk-release')
+
+    // Nordic
+    implementation 'no.nordicsemi.android.support.v18:scanner:1.6.0'
+    implementation 'no.nordicsemi.android:log:2.3.0'
+    implementation 'no.nordicsemi.android:ble-common:2.7.2'
+
+    implementation 'commons-net:commons-net:20030805.205232'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    // USB
+    implementation 'com.github.mik3y:usb-serial-for-android:3.4.1'
+
+
+    // canary
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+    //releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    // Optional, if you use support library fragments:
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
+
+
+}
+

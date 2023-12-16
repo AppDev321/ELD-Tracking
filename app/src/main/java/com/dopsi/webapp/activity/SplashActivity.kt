@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat.startActivity
 import com.core.base.BaseActivity
 import com.dopsi.webapp.R
 import com.dopsi.webapp.databinding.ActivitySplashBinding
+import com.pt.devicemanager.TrackerManagerActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
