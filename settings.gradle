@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DopsiWebApp"
+rootProject.name = "ELD-Tracking"
 include ':app'
 include ':pt-sdk-release'
 include ':eldSdk'

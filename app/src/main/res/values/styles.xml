@@ -27,4 +27,29 @@
     <style name="CustomDialogTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
+
+
+    <style name="TextFontMedium" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+
+    <style name="TextFontRegular" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/regular</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+
+    <style name="TextFontLight" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+    <style name="TextFontSemiBold" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/semi_bold</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+
+
+
+
 </resources>
