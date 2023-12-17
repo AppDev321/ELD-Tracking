@@ -34,7 +34,6 @@ class BLEDeviceFragment :
 
 
     override fun initUserInterface(view: View?) {
-
         initViewModelFlowCollectors()
 
         bluetoothDeviceListAdapter = BluetoothDeviceListAdapter(this)
@@ -42,7 +41,6 @@ class BLEDeviceFragment :
             adapter = bluetoothDeviceListAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-
 
         if (Utils.isBluetoothSupported(requireContext()).not()) {
             showToast("This Device doest not support Bluetooth")
@@ -106,8 +104,6 @@ class BLEDeviceFragment :
         }
     }
 
-
-
     override fun onItemClick(position: Int, view: View) {
         //  val bundle = bundleOf("dataList" to (mainActivityViewModel.itemList as ArrayList<out Parcelable>))
         //  findNavController().navigate(R.id.move_to_second_fragment, bundle)
@@ -116,6 +112,4 @@ class BLEDeviceFragment :
         bluetoothDeviceListAdapter.notifyDataSetChanged()
         super.onItemClick(position, view)
     }
-
-
 }
