@@ -9,11 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.core.extensions.showErrorToast
+import com.core.extensions.showShortToast
+import com.core.module.IODispatcher
+import com.core.module.MainDispatcher
+import com.core.module.UnconfinedDispatcher
 import com.dopsi.webapp.R
 import com.core.utils.DialogManager
 import com.core.utils.Inflate
 import com.core.utils.PreferenceManager
 import com.core.utils.ResourceHelper
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fragment() {
@@ -30,6 +36,22 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
     lateinit var dialogManager: DialogManager
     @Inject
     lateinit var preferenceManager: PreferenceManager
+
+    @Inject
+    @IODispatcher
+    lateinit var defaultDispatcher: CoroutineDispatcher
+
+    @Inject
+    @IODispatcher
+    lateinit var ioDispatcher: CoroutineDispatcher
+
+    @Inject
+    @MainDispatcher
+    lateinit var mainDispatcher: CoroutineDispatcher
+
+    @Inject
+    @UnconfinedDispatcher
+    lateinit var unconfinedDispatcher: CoroutineDispatcher
 
 
 
@@ -79,6 +101,11 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
                 }
             )
         }
+    }
+
+    fun showToast(msg: String)
+    {
+       activity?.showShortToast(msg)
     }
 
 }

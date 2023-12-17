@@ -174,6 +174,7 @@ object PermissionUtilsNew {
         val permissionList: MutableList<String> = ArrayList()
         permissionList.add(Manifest.permission.BLUETOOTH_CONNECT)
         permissionList.add(Manifest.permission.BLUETOOTH_SCAN)
+        permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION)
         return permissionList
     }
 

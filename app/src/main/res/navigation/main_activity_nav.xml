@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_activity_nav"
-    app:startDestination="@id/move_to_web_view_screen">
+    app:startDestination="@id/move_to_login_screen">
     <fragment
         android:id="@+id/movieFragment"
         android:name="com.dopsi.webapp.fragment.MovieFragment"
@@ -31,4 +31,15 @@
         android:id="@+id/move_to_web_view_screen"
         android:name="com.dopsi.webapp.fragment.WebViewFragment"
         tools:layout="@layout/fragment_web_view" />
+
+
+    <fragment
+        android:id="@+id/move_to_login_screen"
+        android:name="com.dopsi.webapp.fragment.LoginFragment"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/move_to_bluetooth_listing_screen"
+        android:name="com.dopsi.webapp.fragment.BLEDeviceFragment"
+        tools:layout="@layout/fragment_bluetooth_device" />
 </navigation>

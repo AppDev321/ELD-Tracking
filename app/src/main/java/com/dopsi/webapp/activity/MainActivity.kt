@@ -5,6 +5,7 @@ import android.content.Intent
 import android.hardware.usb.UsbDevice
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.core.extensions.TAG
 import com.core.extensions.showErrorToast
@@ -13,6 +14,8 @@ import com.core.utils.PermissionUtilsNew
 import com.core.utils.Utils
 import com.core.viewmodel.MovieViewModel
 import com.dopsi.webapp.databinding.ActivityMainBinding
+import com.dopsi.webapp.navigator.BluetoothNavigator
+import com.dopsi.webapp.viewmodel.BluetoothViewModel
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -27,14 +30,25 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 
 @AndroidEntryPoint
-class MainActivity : BleProfileServiceReadyActivity<TrackerService.TrackerBinder>() {
+class MainActivity : BleProfileServiceReadyActivity<TrackerService.TrackerBinder>(),BluetoothNavigator {
     private val mainActivityViewModel: MovieViewModel by viewModels()
-     lateinit var mTrackerBinder: TrackerBinder
+    private val bluetoothViewModel: BluetoothViewModel by viewModels()
+
+
+    lateinit var mTrackerBinder: TrackerBinder
     private lateinit var binding: ActivityMainBinding
     override fun onCreateView(savedInstanceState: Bundle?) {
+        bluetoothViewModel.setNavigator(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        setSupportActionBar(binding.toolbarOverViewScreen.toolbar)
+        binding.toolbarOverViewScreen.let {
+            it.toolbarTitle.text = "Connect ELD"
+            it.toolbar.setNavigationOnClickListener{
+                onBackPressed()
+            }
+        }
       //  onConnectClicked(view)
 
         checkBluetoothDevicePermission()
@@ -60,7 +74,7 @@ class MainActivity : BleProfileServiceReadyActivity<TrackerService.TrackerBinder
     }
 
     override fun getFilterUUID(): UUID {
-        return UUID.fromString(Uart.RX_SERVICE_UUID.toString())
+        return bluetoothViewModel.getUUID()
     }
 
     override fun onServiceBound(binder: TrackerService.TrackerBinder) {
@@ -130,5 +144,10 @@ class MainActivity : BleProfileServiceReadyActivity<TrackerService.TrackerBinder
             }
         }
     }
+
+    override fun showBluetoothEnableDialog() {
+        showBLEDialog()
+    }
+
 
 }
