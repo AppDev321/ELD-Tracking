@@ -16,6 +16,7 @@ kapt {
     correctErrorTypes true
 }
 
+
 android {
     namespace 'com.dopsi.webapp'
     compileSdk 34
@@ -123,4 +124,11 @@ dependencies {
 
     implementation 'commons-net:commons-net:20030805.205232'
     implementation 'com.google.code.gson:gson:2.10.1'
+
+
+    //Event Bus
+    implementation "org.greenrobot:eventbus:3.3.1"
+
+
+
 }

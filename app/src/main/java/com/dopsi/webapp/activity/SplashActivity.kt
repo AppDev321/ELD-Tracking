@@ -35,4 +35,5 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         activityScope.cancel()
         super.onPause()
     }
+
 }

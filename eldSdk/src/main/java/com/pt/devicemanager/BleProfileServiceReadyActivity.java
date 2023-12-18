@@ -40,7 +40,9 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,6 +60,7 @@ import com.pt.devicemanager.scanner.ScannerFragment;
 import com.pt.devicemanager.usb.DevicesFragment;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import no.nordicsemi.android.ble.observer.ConnectionObserver;
 import no.nordicsemi.android.log.ILogSession;
@@ -88,7 +91,7 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 	private static final String LOG_URI = "log_uri";
 	protected static final int REQUEST_ENABLE_BT = 2;
 
-	private E mService;
+	public E mService;
 
 	protected ExtendedFloatingActionButton mConnectButton;
 
@@ -253,7 +256,7 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 //		return new ColorStateList(states, colors);
 //	}
 
-	private ServiceConnection mServiceConnection = new ServiceConnection() {
+	public ServiceConnection mServiceConnection = new ServiceConnection() {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void onServiceConnected(final ComponentName name, final IBinder service) {
@@ -283,6 +286,15 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 				// or the link was lost and service is trying to connect to it (autoConnect=true).
 				Log.v(TAG, "** Connecting from bind **");
 				onDeviceConnecting(mBluetoothDevice);
+				new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						if(!mService.isConnected())
+						{
+							onDeviceFailedToConnect(mBluetoothDevice,REASON_TIMEOUT);
+						}
+					}
+				}, 5000);
 			}
 		}
 
@@ -473,7 +485,7 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 		});
 
 		if (AppModel.MODE_USB) {
-			mConnectButton.setVisibility(View.INVISIBLE);
+		//	mConnectButton.setVisibility(View.INVISIBLE);
 		}
 
 	}
@@ -646,26 +658,26 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 
 	@Override
 	public void onDeviceConnecting(final BluetoothDevice device) {
-		mConnectButton.setText(R.string.connecting);
-		mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabConnecting)));
+		//mConnectButton.setText(R.string.connecting);
+		//mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabConnecting)));
 	}
 
 	@Override
 	public void onDeviceConnected(final BluetoothDevice device) {
-		mConnectButton.setText(R.string.disconnect);
-		mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabDisconnect)));
+		//mConnectButton.setText(R.string.disconnect);
+		//mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabDisconnect)));
 	}
 
 	public void onDeviceConnected(final UsbDevice device) {
-		mConnectButton.setText(R.string.disconnect);
-		mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabDisconnect)));
+	//	mConnectButton.setText(R.string.disconnect);
+	//	mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabDisconnect)));
 	}
 
 
 	@Override
 	public void onDeviceDisconnecting(final BluetoothDevice device) {
-		mConnectButton.setText(R.string.disconnecting);
-		mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabDisconnecting)));
+	//	mConnectButton.setText(R.string.disconnecting);
+	//	mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabDisconnecting)));
 	}
 
 //	public void onDeviceDisconnected() {
@@ -685,8 +697,8 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 //	}
 
 	public void onDeviceDisconnected(final UsbDevice device) {
-		mConnectButton.setText(R.string.connect);
-		mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabConnect)));
+		//mConnectButton.setText(R.string.connect);
+		//mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabConnect)));
 
 		Log.d(TAG, "BA: USB device disconnected. Unbinding from the service...");
 
@@ -698,7 +710,7 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 			mDeviceName = null;
 
 			if (AppModel.MODE_USB) {
-				mConnectButton.setVisibility(View.INVISIBLE);
+			//	mConnectButton.setVisibility(View.INVISIBLE);
 			}
 
 		} catch (final IllegalArgumentException e) {
@@ -708,8 +720,8 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 
 	@Override
 	public void onDeviceDisconnected(final BluetoothDevice device, final int reason) {
-		mConnectButton.setText(R.string.connect);
-		mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabConnect)));
+		//mConnectButton.setText(R.string.connect);
+		//mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabConnect)));
 
 		Log.d(TAG, "BA: BLE device disconnected. Unbinding from the service...");
 
@@ -735,8 +747,8 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 
 
 	public void onLinkLossOccurred(final BluetoothDevice device) {
-		mConnectButton.setText(R.string.connecting);
-		mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabConnecting)));
+	//	mConnectButton.setText(R.string.connecting);
+	//	mConnectButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorFabConnecting)));
 	}
 
 	public void onServicesDiscovered(final BluetoothDevice device, final boolean optionalServicesFound) {

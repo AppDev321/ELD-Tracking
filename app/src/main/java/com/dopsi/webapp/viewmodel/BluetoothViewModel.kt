@@ -26,6 +26,13 @@ import javax.inject.Inject
 class BluetoothViewModel @Inject constructor() :
     BaseViewModel<BluetoothNavigator>() {
 
+     val _connectionStatus = MutableSharedFlow<String>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val connectionStatus: MutableSharedFlow<String> get() = _connectionStatus
+
+
     private val _discoveredDevices = MutableSharedFlow<MutableList<ExtendedBluetoothDevice>>(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST

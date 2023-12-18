@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/_10sdp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_marginTop="@dimen/_40sdp"
+        android:id="@+id/appCompatTextView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Manual"
+        android:textColor="@color/title_color"
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="center"
+        android:text="The User’s manual, instruction sheet, and malfunction instruction sheet can be in electronic form. This is iin accordance with the federal register titled “Regulatory Guidance Concerning Electronic Signatures and Documents” (76 FR 411)."
+        android:textColor="@color/description_color"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView7" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/appCompatButton"
+        style="@style/defaultPrimaryButton"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="View User Manual"
+        app:layout_constraintEnd_toEndOf="@+id/appCompatTextView8"
+        app:layout_constraintStart_toStartOf="@+id/appCompatTextView8"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView8" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="Instructions"
+        android:textColor="@color/title_color"
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatButton" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="In addition to the above, a supply of bank driver's records of duty status (RODS) graphs-grids sufficient to record the driver's duty status and other related information for a minimum of 8 days must be onboard the commercial motor vehicle (CMV)."
+        android:textColor="@color/description_color"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView10" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="@dimen/_10sdp"
+        style="@style/defaultPrimaryButton"
+        android:text="View Instructions"
+        app:layout_constraintEnd_toEndOf="@+id/appCompatTextView8"
+        app:layout_constraintStart_toStartOf="@+id/appCompatTextView8"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView11" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

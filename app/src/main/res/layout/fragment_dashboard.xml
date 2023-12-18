@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnOffDuty"
+        style="@style/labelDashboard"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:backgroundTint="#E04E4E"
+        android:text="OFF DUTY"
+        app:drawableEndCompat="@drawable/ic_off_duty"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnSleeper"
+        style="@style/labelDashboard"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:backgroundTint="#9198A3"
+        android:text="Sleeper"
+        android:textColor="@color/white"
+        app:drawableEndCompat="@drawable/ic_sleeper"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnOffDuty" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnOnDuty"
+        style="@style/labelDashboard"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:backgroundTint="#009429"
+        android:text="ON DUTY"
+        app:drawableEndCompat="@drawable/ic_on_duty"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOffDuty" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnDriving"
+        style="@style/labelDashboard"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:backgroundTint="#17BEE2"
+        android:text="DRIVING"
+        app:drawableEndCompat="@drawable/ic_driving"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOffDuty" />
+
+    <com.dopsi.webapp.utils.ProgressWheel
+        android:id="@+id/pgCycle"
+        style="@style/progressDashboard"
+        app:countText="27:58"
+        app:definitionText="Cycle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:percentage="90" />
+
+    <com.dopsi.webapp.utils.ProgressWheel
+        style="@style/progressDashboard"
+        android:id="@+id/pgShift"
+        app:countText="07:36"
+        app:definitionText="Shift"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pgCycle"
+        app:percentage="40"
+        app:layout_constraintEnd_toStartOf="@+id/pgBreak"
+      />
+
+    <com.dopsi.webapp.utils.ProgressWheel
+        android:id="@+id/pgBreak"
+        style="@style/progressDashboard"
+        app:countText="01:28"
+        app:definitionText="Break"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pgShift"
+        app:percentage="90" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

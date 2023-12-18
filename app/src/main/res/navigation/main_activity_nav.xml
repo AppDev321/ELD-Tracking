@@ -42,4 +42,14 @@
         android:id="@+id/move_to_bluetooth_listing_screen"
         android:name="com.dopsi.webapp.fragment.BLEDeviceFragment"
         tools:layout="@layout/fragment_bluetooth_device" />
+
+    <fragment
+        android:id="@+id/move_to_device_connecting_screen"
+        android:name="com.dopsi.webapp.fragment.DeviceConnectingFragment"
+        tools:layout="@layout/fragment_device_connecting" />
+
+    <fragment
+        android:id="@+id/move_to_device_error_screen"
+        android:name="com.dopsi.webapp.fragment.DeviceErrorFragment"
+        tools:layout="@layout/fragment_device_error" />
 </navigation>

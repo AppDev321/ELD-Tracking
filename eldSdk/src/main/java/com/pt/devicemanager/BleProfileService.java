@@ -469,6 +469,9 @@ public abstract class BleProfileService extends Service implements ConnectionObs
 		broadcast.putExtra(EXTRA_DEVICE, mBluetoothDevice);
 		broadcast.putExtra(EXTRA_CONNECTION_STATE, STATE_CONNECTING);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+
+
+
 	}
 
 	public void onSerialConnectError (Exception e)

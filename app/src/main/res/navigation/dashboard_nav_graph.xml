@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboard_nav_graph"
+    app:startDestination="@+id/move_to_dashboard_screen">
+    <fragment
+        android:id="@+id/move_to_dashboard_screen"
+        android:name="com.dopsi.webapp.fragment.DashboardFragment"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/move_to_information_screen"
+        android:name="com.dopsi.webapp.fragment.InformationFragment"
+        tools:layout="@layout/fragment_information" />
+</navigation>

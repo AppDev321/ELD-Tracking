@@ -8,4 +8,6 @@
     <string name="grant_permission_from_settings">You will be redirected to settings to grant permission</string>
     <string name="open_settings">Open Settings</string>
     <string name="error">Error</string>
+    <string name="close">close</string>
+    <string name="open">open</string>
 </resources>

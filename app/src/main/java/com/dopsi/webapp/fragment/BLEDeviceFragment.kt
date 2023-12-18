@@ -1,8 +1,13 @@
 package com.dopsi.webapp.fragment
 
+import android.bluetooth.BluetoothDevice
+import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.core.base.BaseFragment
 import com.core.extensions.TAG
@@ -13,24 +18,31 @@ import com.core.interfaces.ItemClickListener
 import com.core.utils.AppLogger
 import com.core.utils.Utils
 import com.core.utils.setOnSingleClickListener
+import com.dopsi.webapp.R
 import com.dopsi.webapp.adapter.BluetoothDeviceListAdapter
 import com.dopsi.webapp.databinding.FragmentBluetoothDeviceBinding
+import com.dopsi.webapp.navigator.BluetoothNavigator
 import com.dopsi.webapp.navigator.MovieNavigator
 import com.dopsi.webapp.viewmodel.BluetoothViewModel
+import com.pt.devicemanager.BleProfileService
+import com.pt.devicemanager.BleProfileServiceReadyActivity
 import com.pt.devicemanager.scanner.ExtendedBluetoothDevice
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.notify
+import no.nordicsemi.android.log.LocalLogSession
+import no.nordicsemi.android.log.Logger
 
 @AndroidEntryPoint
 class BLEDeviceFragment :
     BaseFragment<FragmentBluetoothDeviceBinding>(FragmentBluetoothDeviceBinding::inflate),
-    MovieNavigator, ItemClickListener {
+    BluetoothNavigator, ItemClickListener {
     private lateinit var bluetoothDeviceListAdapter: BluetoothDeviceListAdapter
     private val bluetoothViewModel: BluetoothViewModel by activityViewModels()
+
+
 
 
     override fun initUserInterface(view: View?) {
@@ -60,6 +72,8 @@ class BLEDeviceFragment :
             setProgressVisibility(View.VISIBLE)
             bluetoothViewModel.startScan(bluetoothViewModel.getUUID())
         }
+
+
 
         viewDataBinding.btnContinue.isEnabled = false
         viewDataBinding.btnScan.isEnabled = false
@@ -107,9 +121,19 @@ class BLEDeviceFragment :
     override fun onItemClick(position: Int, view: View) {
         //  val bundle = bundleOf("dataList" to (mainActivityViewModel.itemList as ArrayList<out Parcelable>))
         //  findNavController().navigate(R.id.move_to_second_fragment, bundle)
-        bluetoothViewModel.scannedDevices.get(position).isBonded = true
+
+        bluetoothViewModel.scannedDevices[position].isBonded = true
+       val device = bluetoothViewModel.scannedDevices[position]
         viewDataBinding.btnContinue.isEnabled = true
         bluetoothDeviceListAdapter.notifyDataSetChanged()
+
+        viewDataBinding.btnContinue.setOnSingleClickListener{
+            viewDataBinding.btnScan.isEnabled = false
+            bluetoothViewModel.getNavigator()?.onDeviceSelected(device.device,device.name)
+        }
+
+
         super.onItemClick(position, view)
     }
+
 }
