@@ -29,4 +29,9 @@
     <color name="description_color">#828181</color>
     <color name="title_color">@color/black</color>
 
+
+    <color name="duty_on">#009429</color>
+    <color name="driving">#17BEE2</color>
+    <color name="sleeper">#9198A3</color>
+    <color name="duty_off">#E04E4E</color>
 </resources>

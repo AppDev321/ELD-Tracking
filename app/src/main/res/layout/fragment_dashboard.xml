@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,7 +11,7 @@
         style="@style/labelDashboard"
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:backgroundTint="#E04E4E"
+        android:backgroundTint="@color/duty_off"
         android:text="OFF DUTY"
         app:drawableEndCompat="@drawable/ic_off_duty"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +21,7 @@
         android:id="@+id/btnSleeper"
         style="@style/labelDashboard"
         android:layout_marginEnd="@dimen/_20sdp"
-        android:backgroundTint="#9198A3"
+        android:backgroundTint="@color/sleeper"
         android:text="Sleeper"
         android:textColor="@color/white"
         app:drawableEndCompat="@drawable/ic_sleeper"
@@ -33,7 +34,7 @@
         style="@style/labelDashboard"
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:backgroundTint="#009429"
+        android:backgroundTint="@color/duty_on"
         android:text="ON DUTY"
         app:drawableEndCompat="@drawable/ic_on_duty"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,40 +45,176 @@
         style="@style/labelDashboard"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_20sdp"
-        android:backgroundTint="#17BEE2"
+        android:backgroundTint="@color/driving"
         android:text="DRIVING"
         app:drawableEndCompat="@drawable/ic_driving"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOffDuty" />
 
-    <com.dopsi.webapp.utils.ProgressWheel
-        android:id="@+id/pgCycle"
-        style="@style/progressDashboard"
-        app:countText="27:58"
-        app:definitionText="Cycle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:percentage="90" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:elevation="5dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnHome"
+        app:layout_constraintTop_toBottomOf="@+id/btnOnDuty">
 
-    <com.dopsi.webapp.utils.ProgressWheel
-        style="@style/progressDashboard"
-        android:id="@+id/pgShift"
-        app:countText="07:36"
-        app:definitionText="Shift"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pgCycle"
-        app:percentage="40"
-        app:layout_constraintEnd_toStartOf="@+id/pgBreak"
-      />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.dopsi.webapp.utils.ProgressWheel
-        android:id="@+id/pgBreak"
-        style="@style/progressDashboard"
-        app:countText="01:28"
-        app:definitionText="Break"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/pgShift"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/defaultPrimaryButton"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="-5dp"
+                    android:backgroundTint="@color/duty_on"
+                    android:padding="0dp"
+                    android:text="On Duty"
+                    android:textSize="12dp"
+                    app:layout_constraintEnd_toEndOf="@+id/arc_progress"
+                    app:layout_constraintStart_toStartOf="@+id/arc_progress"
+                    app:layout_constraintTop_toBottomOf="@+id/arc_progress" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bold"
+                    android:text="Drive"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/arc_progress"
+                    app:layout_constraintStart_toStartOf="@+id/arc_progress"
+                    app:layout_constraintTop_toBottomOf="@+id/txtTime" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtTime"
+                    style="@style/TextFontBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bold"
+                    android:text="04:10PM"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/arc_progress"
+                    app:layout_constraintEnd_toEndOf="@+id/arc_progress"
+                    app:layout_constraintStart_toStartOf="@+id/arc_progress"
+                    app:layout_constraintTop_toTopOf="@+id/arc_progress" />
+
+
+                <com.dopsi.webapp.utils.ArcProgress
+                    android:id="@+id/arc_progress"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_150sdp"
+                    app:arc_bottom_text_size="@dimen/_18sdp"
+                    app:arc_finished_color="#17BEE2"
+                    app:arc_progress="60"
+                    app:arc_stroke_width="@dimen/_15sdp"
+                    app:arc_text_color="@color/black"
+                    app:arc_text_size="@dimen/_1sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.dopsi.webapp.utils.ProgressWheel
+                android:id="@+id/pgCycle"
+                style="@style/progressDashboard"
+                app:countText="27:58"
+                app:definitionText="Cycle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/pgShift"
+                app:layout_constraintStart_toStartOf="parent"
+                app:percentage="90" />
+
+            <com.dopsi.webapp.utils.ProgressWheel
+                android:id="@+id/pgShift"
+                style="@style/progressDashboard"
+
+                app:countText="07:36"
+                app:definitionText="Shift"
+                app:layout_constraintStart_toEndOf="@+id/pgCycle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/pgBreak"
+                app:percentage="40" />
+
+            <com.dopsi.webapp.utils.ProgressWheel
+                android:id="@+id/pgBreak"
+                style="@style/progressDashboard"
         app:layout_constraintStart_toEndOf="@+id/pgShift"
-        app:percentage="90" />
+
+                app:countText="01:28"
+                app:definitionText="Break"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:percentage="90" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:id="@+id/btnHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:padding="@dimen/_15sdp"
+        android:background="@drawable/white_bg_with_default_stroke"
+        android:text="Home"
+        android:drawableTop="@drawable/ic_home"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/primary_button_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:background="@drawable/white_bg_with_grey_stroke"
+        android:drawableTop="@drawable/ic_logs"
+        android:gravity="center"
+        android:padding="@dimen/_15sdp"
+        android:text="Logs"
+        android:textColor="#5B5B5B"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnDVIR"
+        app:layout_constraintStart_toEndOf="@+id/btnHome" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDVIR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:background="@drawable/white_bg_with_grey_stroke"
+        android:drawableTop="@drawable/ic_dvir"
+        android:gravity="center"
+        android:padding="@dimen/_15sdp"
+        android:text="DVIR"
+        android:textStyle="bold"
+        android:textColor="#5B5B5B"
+         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnLogs"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

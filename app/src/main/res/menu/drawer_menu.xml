@@ -17,6 +17,11 @@
         android:icon="@drawable/ic_co_driver"
         android:title="Co-Driver" />
     <item
+        android:id="@+id/menu_vehicle"
+        android:icon="@drawable/ic_vehicle"
+        android:title="Vehicle" />
+
+    <item
         android:id="@+id/menu_account"
         android:icon="@drawable/ic_account"
         android:title="Account" />

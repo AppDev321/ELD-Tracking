@@ -24,7 +24,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             delay(2000)
             withContext(Dispatchers.Main)
             {
-                val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                val intent = Intent(this@SplashActivity, DashboardActivity::class.java)
                 startActivity(intent)
                 finish()
             }
