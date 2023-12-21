@@ -51,6 +51,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -863,8 +865,15 @@ public abstract class BleProfileServiceReadyActivity<E extends BleProfileService
 
 	@SuppressLint("MissingPermission")
 	protected void showBLEDialog() {
-		final Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-		startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT)
+				== PackageManager.PERMISSION_GRANTED) {
+			final Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+		}
+	 else {
+		// Bluetooth permission is not granted, request it
+		ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, 1011);
+	}
 	}
 
 	@Override

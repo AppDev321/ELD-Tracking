@@ -10,4 +10,11 @@
     <string name="error">Error</string>
     <string name="close">close</string>
     <string name="open">open</string>
+    <string name="inspect_log_text">Inspection logs for the 24-hour periods and the previous days for one HOS cycle</string>
+    <string name="inspect_log_desc_text">Select \"Start Inspection\" and give your device to the officer</string>
+    <string name="send_log_text">Send logs for the 24-hour periods and the previous days for one HOS cycle</string>
+    <string name="send_log_desc_text">Send your logs to the officer if they request</string>
+    <string name="email_log_text">Email logs for the 24-hour periods and the previous days for one HOS cycle</string>
+    <string name="email_log_desc_text">Email your logs in the PDF format</string>
+    <string name="packet_info_title_text">VLOG ELD SOLUTIONS certifies that use of the VLOG ELD SOLUTIONS app with VLOG ELD device compiles\nwith all requirements for ELD as defined in Federal Motor Carrier Safety regulation 49 CRF part 395 Subpart B.</string>
 </resources>

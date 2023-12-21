@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
 import com.core.extensions.TAG
 import com.core.utils.AppLogger
 import com.dopsi.webapp.R
@@ -54,6 +55,22 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         drawerLayout.closeDrawers()
-       return false
+        return when (item.itemId) {
+
+            R.id.menu_info -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_information_screen)
+                true
+            }
+            R.id.menu_dot_inspection ->
+            {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_dot_screen)
+                true
+            }
+
+            else ->
+                false
+        }
+
     }
+
 }

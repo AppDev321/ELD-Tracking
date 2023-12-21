@@ -13,4 +13,10 @@
         android:id="@+id/move_to_information_screen"
         android:name="com.dopsi.webapp.fragment.InformationFragment"
         tools:layout="@layout/fragment_information" />
+
+
+    <fragment
+        android:id="@+id/move_to_dot_screen"
+        android:name="com.dopsi.webapp.fragment.DOTInspectionFragment"
+        tools:layout="@layout/fragment_dot_inspection" />
 </navigation>

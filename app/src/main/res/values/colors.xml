@@ -20,7 +20,7 @@
     <color name="alert_dialog_progress_bg">#FFFFFF</color>
     <color name="alert_dialog_progress">#03A9F4</color>
     <color name="transparency_20">#85000000</color>
-
+    <color name="seprator_color">#828181</color>
     <color name="primary_button_ripple_color">#80EE6725</color>
     <color name="primary_button_color">#EE6725</color>
     <color name="secondary_button_color">#17BEE2</color>
