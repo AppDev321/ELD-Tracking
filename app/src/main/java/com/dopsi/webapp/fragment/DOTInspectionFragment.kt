@@ -27,7 +27,7 @@ class DOTInspectionFragment :
         viewDataBinding.recDotScreen.apply {
             adapter = dotListAdapter
             layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(
+                this.addItemDecoration(
                     DividerItemDecoration(
                         this.context,1
                     )
