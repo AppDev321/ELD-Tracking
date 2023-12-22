@@ -22,5 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
     override fun initUserInterface(view: View?) {
+        viewDataBinding.btnLogs.setOnClickListener{
+            findNavController().navigate(R.id.move_to_eld_logs_screen)
+        }
     }
 }

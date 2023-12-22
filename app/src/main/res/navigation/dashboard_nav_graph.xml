@@ -25,4 +25,11 @@
         android:id="@+id/move_to_send_logs_screen"
         android:name="com.dopsi.webapp.fragment.SendLogsFragment"
         tools:layout="@layout/fragment_send_logs" />
+
+
+
+    <fragment
+        android:id="@+id/move_to_eld_logs_screen"
+        android:name="com.dopsi.webapp.fragment.ELDLogFragment"
+        tools:layout="@layout/fragment_eld_logs" />
 </navigation>
