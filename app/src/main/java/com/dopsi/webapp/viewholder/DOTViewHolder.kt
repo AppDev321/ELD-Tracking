@@ -6,11 +6,13 @@ import com.core.extensions.hide
 import com.core.extensions.show
 import com.dopsi.webapp.databinding.ItemBleDeviceBinding
 import com.dopsi.webapp.databinding.ItemDotInspectionFragmentBinding
+import com.dopsi.webapp.model.ClickEvent
 import com.dopsi.webapp.model.DOTData
 import com.pt.devicemanager.scanner.ExtendedBluetoothDevice
 
 class DOTViewHolder(
-    private var item: ItemDotInspectionFragmentBinding
+    private var item: ItemDotInspectionFragmentBinding,
+    var event: (ClickEvent) -> Unit?,
 ) : BaseViewHolder<DOTData>(item.root) {
 
     override fun bindItem(data: DOTData) {
@@ -22,7 +24,9 @@ class DOTViewHolder(
             item.txtDesc.text = data.desc
         }
 
-
+        item.btnAction.setOnClickListener{
+            event.invoke(ClickEvent.ItemClick(pos =absoluteAdapterPosition))
+        }
 
 
     }
