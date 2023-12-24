@@ -10,7 +10,6 @@ import com.core.base.BaseFragment
 import com.core.interfaces.ItemClickListener
 import com.dopsi.webapp.R
 import com.dopsi.webapp.adapter.DOTListAdapter
-import com.dopsi.webapp.databinding.FragmentDotInspectionBinding
 import com.dopsi.webapp.databinding.FragmentSendLogsBinding
 import com.dopsi.webapp.model.FragmentDTODataFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,4 +30,6 @@ class SendLogsFragment :
         viewDataBinding.txtDataTransferType.hint = "Select"
 
     }
+
+
 }

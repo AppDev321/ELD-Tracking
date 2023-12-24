@@ -7,10 +7,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
    <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/rec_dot_screen"
+       android:id="@+id/recylerView"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        tools:itemCount="4"
 
        tools:listitem="@layout/item_dot_inspection_fragment"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,40 +10,41 @@ import com.core.base.BaseFragment
 import com.core.interfaces.ItemClickListener
 import com.dopsi.webapp.R
 import com.dopsi.webapp.activity.DashboardActivity
+import com.dopsi.webapp.adapter.AccountAdapter
 import com.dopsi.webapp.adapter.DOTListAdapter
+import com.dopsi.webapp.adapter.VehicleAdapter
 
 import com.dopsi.webapp.databinding.FragmentRecyclerViewBinding
+import com.dopsi.webapp.model.AccountData
+import com.dopsi.webapp.model.AccountDataFactory
 import com.dopsi.webapp.model.ClickEvent
 import com.dopsi.webapp.model.DOTData
 import com.dopsi.webapp.model.FragmentDTODataFactory
+import com.dopsi.webapp.model.VehicleData
+import com.dopsi.webapp.model.VehicleDataFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class DOTInspectionFragment :
+class VehicleFragment :
     BaseFragment<FragmentRecyclerViewBinding>(FragmentRecyclerViewBinding::inflate),
     ItemClickListener {
     @Inject
-    lateinit var fragmentDOTData: FragmentDTODataFactory
-    private lateinit var dotListAdapter: DOTListAdapter
-    private lateinit var dotDataList: ArrayList<DOTData>
+    lateinit var vehicleDataFactory: VehicleDataFactory
+    private lateinit var vehicleAdapter: VehicleAdapter
+    private lateinit var vehicleData: ArrayList<VehicleData>
 
     @SuppressLint("SuspiciousIndentation")
     override fun initUserInterface(view: View?) {
 
-        dotListAdapter = DOTListAdapter(this, events)
+        vehicleAdapter = VehicleAdapter(this, events)
         viewDataBinding.recylerView.apply {
-            adapter = dotListAdapter
+            adapter = vehicleAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            this.addItemDecoration(
-                DividerItemDecoration(
-                    this.context, 1
-                )
-            )
         }
-        dotDataList = fragmentDOTData.getDOTItemList()
-        dotListAdapter.setItems(dotDataList)
+        vehicleData = vehicleDataFactory.getVehicleData()
+        vehicleAdapter.setItems(vehicleData)
     }
 
     var events: (ClickEvent) -> Unit?
@@ -57,21 +58,17 @@ class DOTInspectionFragment :
         set(value) {}
 
     private fun onItemClick(position: Int) {
-        val item = dotDataList[position];
-        when (item.viewType) {
-            FragmentDTODataFactory.ITEM_TYPE.LOGS -> {
-                findNavController().navigate(R.id.move_to_send_logs_screen)
-            }
+        val item = vehicleData[position];
 
-            else -> findNavController().navigate(R.id.move_to_send_logs_screen)
-
-        }
     }
+
     override fun onResume() {
         super.onResume()
         activity?.let {
             it as AppCompatActivity
-            it.supportActionBar?.title= "DOT Inspection"
+            it.supportActionBar?.title= "Vehicle"
         }
+
     }
+
 }

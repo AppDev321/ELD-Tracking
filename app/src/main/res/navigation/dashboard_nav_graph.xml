@@ -7,7 +7,37 @@
     <fragment
         android:id="@+id/move_to_dashboard_screen"
         android:name="com.dopsi.webapp.fragment.DashboardFragment"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+
+        <action
+            android:id="@+id/action_fragment_dashboard_to_status_change_dialog"
+            app:destination="@id/move_to_status_change_dialog" />
+
+
+        <action
+            android:id="@+id/action_fragment_account"
+            app:destination="@id/move_to_account_screen" />
+
+        <action
+            android:id="@+id/action_fragment_info"
+            app:destination="@id/move_to_information_screen" />
+
+        <action
+            android:id="@+id/action_fragment_dot_inspection"
+            app:destination="@id/move_to_dot_screen" />
+        <action
+            android:id="@+id/action_fragment_vehicle"
+            app:destination="@id/move_to_vehicle_screen" />
+
+        <action
+            android:id="@+id/action_fragment_co_driver"
+            app:destination="@id/move_to_co_driver_screen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/move_to_account_screen"
+        android:name="com.dopsi.webapp.fragment.AccountFragment"
+        tools:layout="@layout/fragment_recycler_view" />
 
     <fragment
         android:id="@+id/move_to_information_screen"
@@ -18,7 +48,7 @@
     <fragment
         android:id="@+id/move_to_dot_screen"
         android:name="com.dopsi.webapp.fragment.DOTInspectionFragment"
-        tools:layout="@layout/fragment_dot_inspection" />
+        tools:layout="@layout/fragment_recycler_view" />
 
 
     <fragment
@@ -26,10 +56,25 @@
         android:name="com.dopsi.webapp.fragment.SendLogsFragment"
         tools:layout="@layout/fragment_send_logs" />
 
-
+    <fragment
+        android:id="@+id/move_to_vehicle_screen"
+        android:name="com.dopsi.webapp.fragment.VehicleFragment"
+        tools:layout="@layout/fragment_recycler_view" />
 
     <fragment
         android:id="@+id/move_to_eld_logs_screen"
         android:name="com.dopsi.webapp.fragment.ELDLogFragment"
         tools:layout="@layout/fragment_eld_logs" />
+
+    <fragment
+        android:id="@+id/move_to_co_driver_screen"
+        android:name="com.dopsi.webapp.fragment.CoDriverFragment"
+        tools:layout="@layout/fragment_co_driver" />
+
+
+
+    <dialog
+        android:id="@+id/move_to_status_change_dialog"
+        android:name="com.dopsi.webapp.dialog.StatusChangeDialog"
+        tools:layout="@layout/dialog_status_change"/>
 </navigation>

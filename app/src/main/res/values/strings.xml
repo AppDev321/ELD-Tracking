@@ -17,4 +17,14 @@
     <string name="email_log_text">Email logs for the 24-hour periods and the previous days for one HOS cycle</string>
     <string name="email_log_desc_text">Email your logs in the PDF format</string>
     <string name="packet_info_title_text">VLOG ELD SOLUTIONS certifies that use of the VLOG ELD SOLUTIONS app with VLOG ELD device compiles\nwith all requirements for ELD as defined in Federal Motor Carrier Safety regulation 49 CRF part 395 Subpart B.</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_name">Name\n</string>
+    <string name="txt_phone">Phone</string>
+    <string name="txt_license">License</string>
+    <string name="txt_carrier">Carrier</string>
+    <string name="txt_main_office">Main Office Address</string>
+    <string name="txt_home_terminal">Home Terminal Address</string>
+    <string name="txt_time_zone">Time Zone</string>
+    <string name="txt_lang">Language</string>
+    <string name="txt_odometer">Odometer</string>
 </resources>

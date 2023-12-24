@@ -35,6 +35,12 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="DialogThemeCustom" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="windowMinWidthMajor">0%</item>
+        <item name="windowMinWidthMinor">0%</item>
+    </style>
+
 
     <style name="TextFontMedium" parent="ThemeOverlay.AppCompat.DayNight">
         <item name="android:fontFamily">@font/medium</item>
@@ -88,6 +94,21 @@
         <item name="android:background">@drawable/ic_slight_round_corner_rectangle</item>
     </style>
 
+
+    <style name="labelStatusChange">
+        <item name="android:layout_width">@dimen/_70sdp</item>
+        <item name="android:layout_height">@dimen/_30sdp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginHorizontal">@dimen/_3sdp</item>
+        <item name="android:paddingHorizontal">@dimen/_5sdp</item>
+        <item name="android:paddingVertical">@dimen/_8sdp</item>
+        <item name="android:textColor">@drawable/toggle_text_status_change_selector</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="android:background">@drawable/toggle_status_change_selector</item>
+    </style>
+
+
+
     <style name="progressDashboard">
         <item name="android:layout_width">@dimen/_80sdp</item>
         <item name="android:layout_height">@dimen/_80sdp</item>
@@ -100,4 +121,8 @@
         <item name="progressColor">#17BEE2</item>
         <item name="android:layout_marginBottom">@dimen/_10sdp</item>
     </style>
+
+
+
+
 </resources>

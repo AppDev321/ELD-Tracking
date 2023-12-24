@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothProfile
 import android.content.Intent
 import android.hardware.usb.UsbDevice
+import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import com.core.extensions.TAG
@@ -20,28 +22,31 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import no.nordicsemi.android.ble.annotation.ConnectionState
+import org.greenrobot.eventbus.EventBus
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
-abstract class BaseActivity : BleProfileServiceReadyActivity<TrackerService.TrackerBinder>(),ServiceInterface{
+abstract class BaseActivity : BleProfileServiceReadyActivity<TrackerService.TrackerBinder>(),ServiceInterface {
 
     lateinit var mTrackerBinder: TrackerService.TrackerBinder
 
     override fun onDeviceFailedToConnect(device: BluetoothDevice, reason: Int) {
         AppLogger.e(TAG, "Device Failed  ....")
 
-     super<ServiceInterface>.onDeviceFailedToConnect(device, reason)
+        super<ServiceInterface>.onDeviceFailedToConnect(device, reason)
     }
 
     override fun getFilterUUID(): UUID {
         return UUID.fromString(Uart.RX_SERVICE_UUID.toString())
     }
+
     override fun onServiceUnbound() {
     }
 
     override fun onDeviceDisconnecting(device: BluetoothDevice) {
 
     }
+
     override fun onDeviceReady(device: BluetoothDevice) {
 
     }
@@ -89,5 +94,10 @@ abstract class BaseActivity : BleProfileServiceReadyActivity<TrackerService.Trac
         super<ServiceInterface>.onDeviceConnected(device)
         AppLogger.i(TAG, "A: Tracker Connected")
     }
+
+
+
+
+
 
 }

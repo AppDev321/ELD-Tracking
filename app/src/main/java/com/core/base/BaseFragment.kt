@@ -108,4 +108,5 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
        activity?.showShortToast(msg)
     }
 
+
 }
