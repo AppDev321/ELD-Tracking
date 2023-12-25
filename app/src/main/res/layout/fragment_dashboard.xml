@@ -6,62 +6,112 @@
     android:layout_height="match_parent">
 
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/btnOffDuty"
-        style="@style/labelDashboard"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:backgroundTint="@color/duty_off"
-        android:text="OFF DUTY"
-        app:drawableEndCompat="@drawable/ic_off_duty"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/btnSleeper"
-        style="@style/labelDashboard"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:backgroundTint="@color/sleeper"
-        android:text="Sleeper"
-        android:textColor="@color/white"
-        app:drawableEndCompat="@drawable/ic_sleeper"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:elevation="5dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnOffDuty" />
-
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/btnOnDuty"
-        style="@style/labelDashboard"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:backgroundTint="@color/duty_on"
-        android:text="ON DUTY"
-        app:drawableEndCompat="@drawable/ic_on_duty"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOffDuty" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/btnDriving"
-        style="@style/labelDashboard"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:backgroundTint="@color/driving"
-        android:text="DRIVING"
-        app:drawableEndCompat="@drawable/ic_driving"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOffDuty" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#6EC76D"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_4sdp"
+                    android:text="Macauley Wagner\n1310"
+                    android:textColor="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_4sdp"
+                    android:text="Connected"
+                    android:textColor="@color/white" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_dashboard_truck"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/semi_bold"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:text="Your Status"
+              app:layout_constraintBottom_toTopOf="@+id/txtDriverStatus"
+                app:layout_constraintEnd_toStartOf="@+id/appCompatImageView5"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtDriverStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:fontFamily="@font/semi_bold"
+                android:text="Driving"
+                android:textColor="#F2844F"
+                android:textSize="@dimen/_16sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView15"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView15"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView15" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/ic_bg_circle_dash_arrow"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_arrow_down_bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
         android:elevation="5dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/btnHome"
-        app:layout_constraintTop_toBottomOf="@+id/btnOnDuty">
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        android:layout_marginTop="@dimen/_10sdp"
+        tools:layout_editor_absoluteX="13dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -149,20 +199,20 @@
 
                 app:countText="07:36"
                 app:definitionText="Shift"
-                app:layout_constraintStart_toEndOf="@+id/pgCycle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/pgBreak"
+                app:layout_constraintStart_toEndOf="@+id/pgCycle"
                 app:percentage="40" />
 
             <com.dopsi.webapp.utils.ProgressWheel
                 android:id="@+id/pgBreak"
                 style="@style/progressDashboard"
-        app:layout_constraintStart_toEndOf="@+id/pgShift"
-
                 app:countText="01:28"
+
                 app:definitionText="Break"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pgShift"
                 app:percentage="90" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
