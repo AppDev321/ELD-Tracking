@@ -31,6 +31,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "Boolean", "ENABLE_APPLICATION_LOGGER", "$enableAppLogger"
+        ndk {
+            abiFilters 'x86' , 'arm64-v8a' , 'armeabi-v7a'
+        }
     }
 
     buildTypes {
@@ -133,6 +136,15 @@ dependencies {
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    //SCI 2D Chart
 
+    def sciChart_version = "4.5.0.4851"
+    implementation (group: 'com.scichart.library', name: 'core', version: sciChart_version, ext: 'aar')
+    implementation (group: 'com.scichart.library', name: 'data', version: sciChart_version, ext: 'aar')
+    implementation (group: 'com.scichart.library', name: 'drawing', version: sciChart_version, ext: 'aar')
+    implementation (group: 'com.scichart.library', name: 'charting', version: sciChart_version, ext: 'aar')
+    implementation (group: 'com.scichart.library', name: 'charting3d', version: sciChart_version, ext: 'aar')
+    implementation (group: 'com.scichart.library', name: 'extensions', version: sciChart_version, ext: 'aar')
+    implementation (group: 'com.scichart.library', name: 'extensions3d', version: sciChart_version, ext: 'aar')
 }
 

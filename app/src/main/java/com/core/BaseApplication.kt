@@ -1,29 +1,13 @@
 package com.core
 
-import android.app.Application
-import android.content.Intent
 import android.util.Log
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.startup.AppInitializer
-import androidx.work.Constraints
-import androidx.work.ExistingWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
-import com.core.extensions.TAG
-import com.core.service.BackgroundService
-import com.core.service.ConnectionWorker
-import com.core.service.FirebaseStartup
 import com.core.utils.AppLogger
 import com.core.utils.PreferenceManager
 import com.core.utils.fileUtils.FileUtils
 import com.pt.devicemanager.App
+import com.scichart.charting.visuals.SciChartSurface
+import com.scichart.extensions.builders.SciChartBuilder
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 
@@ -42,7 +26,13 @@ class BaseApplication : App() /*, androidx.lifecycle.DefaultLifecycleObserver */
         AppLogger.initializeLogging(
             this, FileUtils.getLogsPath(), preferenceManager.isApplicationLogsEnabled()
         )
-
+        try {
+            // Set this code once in MainActivity or application startup
+            SciChartSurface.setRuntimeLicenseKey("5sw+FIqAYn2IirIlQG+h2tMNl+43axoVrruXorQF0Sr/YGP7v/CRuxDgIPLog47IXHzc3E1AU8YIost4qEcvWPXMn6OuBBSACR6ZKjUGWnXxOoAXge4zXthtyRBR4+AisUs1GVDuq/FUmpyauIlv1vFQ/ytZFZv8LxAqDm9XG+98IV8JDzA2SeniFxSQ54qCRbdouDRTJwmxWAvtYq0Ei3RJobU/BpXUoicHAmYZLwK0KALHHc6YiXkluhZfOapk81UG2DArw0Rgf1xhYlg6gOwhbjZkTg4ylQ6uhtXwLe4qfnHDwPV+ws0Aid/97hfzF/JY9m654RKBdVCQTdSpJ9bw3+dhpg3gTAwzUv5/YYMvwo9+sdkQjDDq+Uw/VA/oeDHBgfiH30ORbnH7/P+60PIws7qZhmq2eNkvQzlnJrWv/0hST0hZCjhGuVZMEq71x4NVvKBsA9kyd8IU8HodLbLbfd5UvWAlavbe0xlsMCPejExJtfyKJ+g7GUQtZx5FaPULuyo0fxQGhWpRtqC/HaYPwiuNvq02+bWcDg==");
+            SciChartBuilder.init(this)
+        } catch (e: Exception) {
+            Log.e("SciChart", "Error when setting the license", e)
+        }
 
         /*  ProcessLifecycleOwner.get().lifecycle.addObserver(this)
           CoroutineScope(Dispatchers.IO).launch {

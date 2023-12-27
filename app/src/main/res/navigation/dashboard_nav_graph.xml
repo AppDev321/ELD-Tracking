@@ -71,7 +71,10 @@
         android:name="com.dopsi.webapp.fragment.CoDriverFragment"
         tools:layout="@layout/fragment_co_driver" />
 
-
+    <fragment
+        android:id="@+id/move_to_eld_screen"
+        android:name="com.dopsi.webapp.fragment.LineChartFragment"
+        tools:layout="@layout/fragment_eld_logs" />
 
     <dialog
         android:id="@+id/move_to_status_change_dialog"

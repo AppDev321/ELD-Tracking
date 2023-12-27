@@ -7,10 +7,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.core.extensions.TAG
 import com.core.utils.AppLogger
-import com.core.utils.navigateSafe
 import com.dopsi.webapp.R
 import com.dopsi.webapp.databinding.ActivityDashboardBinding
 import com.google.android.material.navigation.NavigationView
@@ -34,6 +32,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateView(savedInstanceState: Bundle?) {
+
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -63,26 +62,27 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
                 findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_information_screen)
                 true
             }
-            R.id.menu_dot_inspection ->
-            {
+
+            R.id.menu_dot_inspection -> {
                 findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_dot_screen)
                 true
             }
-            R.id.menu_account ->
-            {
-                findNavController(R.id.nav_host_fragment).navigate( R.id.move_to_account_screen)
+
+            R.id.menu_account -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_account_screen)
                 true
             }
-            R.id.menu_vehicle ->
-            {
-                findNavController(R.id.nav_host_fragment).navigate( R.id.move_to_vehicle_screen)
+
+            R.id.menu_vehicle -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_vehicle_screen)
                 true
             }
-            R.id.menu_co_driver ->
-            {
-                findNavController(R.id.nav_host_fragment).navigate( R.id.move_to_co_driver_screen)
+
+            R.id.menu_co_driver -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_co_driver_screen)
                 true
             }
+
             else ->
                 false
         }
@@ -91,7 +91,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBackPressed() {
 
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawers()
         else
             super.onBackPressed()
