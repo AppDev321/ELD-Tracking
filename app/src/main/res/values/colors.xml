@@ -10,7 +10,7 @@
     <color name="colorSecondaryVariant">@color/black</color>
 
 
-
+    <color name="app_background">@color/black</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="black">#FF000000</color>

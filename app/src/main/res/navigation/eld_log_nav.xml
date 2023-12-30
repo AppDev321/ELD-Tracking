@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/eld_log_nav"
+    app:startDestination="@+id/event_fragment">
+    <fragment
+        android:id="@+id/event_fragment"
+        android:name="com.dopsi.webapp.fragment.EventsFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_events">
+        <action
+            android:id="@+id/action_move_to_forms"
+            app:destination="@id/forms_fragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/forms_fragment"
+        android:name="com.dopsi.webapp.fragment.AccountFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_recycler_view">
+        <action
+            android:id="@+id/action_move_to_certify"
+            app:destination="@id/certify_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/certify_fragment"
+        android:name="com.dopsi.webapp.fragment.EventsFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_events"/>
+
+</navigation>

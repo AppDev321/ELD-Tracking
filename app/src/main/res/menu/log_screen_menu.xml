@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:id="@+id/event"
+            android:title="Events"
+            android:icon="@drawable/ic_events"/>
+
+        <item
+            android:id="@+id/forms"
+            android:title="Forms"
+            android:icon="@drawable/ic_forms"/>
+
+        <item
+            android:id="@+id/certify"
+            android:title="Certify"
+            android:icon="@drawable/ic_certify"/>
+
+
+
+</menu>

@@ -4,6 +4,7 @@ import android.content.Context
 import com.dopsi.webapp.model.AccountDataFactory
 import com.dopsi.webapp.model.FragmentDTODataFactory
 import com.dopsi.webapp.model.VehicleDataFactory
+import com.dopsi.webapp.utils.chartUtil.ELDGraph
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,5 +40,13 @@ object UICommonModule {
         @ApplicationContext appContext: Context,
 
         ) = VehicleDataFactory(appContext)
+
+
+    @Provides
+    @Singleton
+    fun provideELDGraphFactory(
+        @ApplicationContext appContext: Context
+
+        ) = ELDGraph(appContext)
 
 }
