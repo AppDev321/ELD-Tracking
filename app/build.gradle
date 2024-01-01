@@ -135,5 +135,8 @@ dependencies {
     //Bottom Navigation
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.9'
 
+    //Signature Pad
+    implementation "com.github.gcacace:signature-pad:1.3.1"
+
 }
 

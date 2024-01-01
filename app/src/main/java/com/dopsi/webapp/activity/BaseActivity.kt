@@ -10,6 +10,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import com.core.extensions.TAG
 import com.core.utils.AppLogger
+import com.core.utils.DialogManager
 import com.dopsi.webapp.R
 import com.dopsi.webapp.interfaces.ServiceInterface
 import com.pt.devicemanager.AppModel
@@ -25,11 +26,13 @@ import no.nordicsemi.android.ble.annotation.ConnectionState
 import org.greenrobot.eventbus.EventBus
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 abstract class BaseActivity : BleProfileServiceReadyActivity<TrackerService.TrackerBinder>(),ServiceInterface {
 
     lateinit var mTrackerBinder: TrackerService.TrackerBinder
-
+    @Inject
+    lateinit var dialogManager: DialogManager
     override fun onDeviceFailedToConnect(device: BluetoothDevice, reason: Int) {
         AppLogger.e(TAG, "Device Failed  ....")
 

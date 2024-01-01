@@ -17,9 +17,9 @@
 
     <fragment
         android:id="@+id/forms_fragment"
-        android:name="com.dopsi.webapp.fragment.AccountFragment"
+        android:name="com.dopsi.webapp.fragment.FormFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_recycler_view">
+        tools:layout="@layout/fragment_form">
         <action
             android:id="@+id/action_move_to_certify"
             app:destination="@id/certify_fragment" />
@@ -27,8 +27,8 @@
 
     <fragment
         android:id="@+id/certify_fragment"
-        android:name="com.dopsi.webapp.fragment.EventsFragment"
+        android:name="com.dopsi.webapp.fragment.CertifyFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_events"/>
+        tools:layout="@layout/fragment_certify"/>
 
 </navigation>

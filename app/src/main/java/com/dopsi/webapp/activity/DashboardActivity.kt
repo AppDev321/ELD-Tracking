@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.core.extensions.TAG
 import com.core.utils.AppLogger
+import com.core.utils.DialogManager
 import com.core.utils.navigateSafe
 import com.dopsi.webapp.R
 import com.dopsi.webapp.databinding.ActivityDashboardBinding
@@ -22,6 +23,10 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
+
+
+
+
     override fun onDeviceDisconnecting(device: BluetoothDevice) {
         super.onDeviceDisconnecting(device)
         AppLogger.e(TAG, "onDeviceDisconnecting")
@@ -58,7 +63,12 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         drawerLayout.closeDrawers()
+        findNavController(R.id.nav_host_fragment).popBackStack()
         return when (item.itemId) {
+            R.id.menu_status -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_dashboard_screen)
+                true
+            }
             R.id.menu_info -> {
                 findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_information_screen)
                 true
@@ -90,11 +100,43 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-
         if(drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawers()
-        else
-            super.onBackPressed()
+        else {
+            val navHost = findNavController(R.id.nav_host_fragment)
+            navHost.currentDestination?.let {
+                when (it.id){
+                    R.id.move_to_information_screen,
+                    R.id.move_to_co_driver_screen,
+                    R.id.move_to_vehicle_screen,
+                    R.id.move_to_account_screen,
+                    R.id.move_to_dot_screen,
+                    R.id.move_to_information_screen ->
+                        navHost.navigate(R.id.move_to_dashboard_screen)
+                    R.id.move_to_dashboard_screen ->
+                        showExitConfirmationDialog()
+                    else -> super.onBackPressed()
+
+                }
+            }?:kotlin.run {
+                super.onBackPressed()
+            }
+
+        }
+    }
+
+    private fun showExitConfirmationDialog() {
+        dialogManager.twoButtonDialog(this,
+            "Exit Confirmation",
+            "Are you sure you want to exit?",
+            positiveButtonText = "Yes",
+            alertDialogListener = object:DialogManager.AlertDialogListener{
+                override fun onPositiveButtonClicked() {
+                    finish()
+                    super.onPositiveButtonClicked()
+                }
+            }
+            ).show()
     }
 
 }

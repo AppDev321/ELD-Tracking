@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.github.gcacace.signaturepad.views.SignaturePad
+        android:id="@+id/signaturePad"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_180sdp"
+        android:layout_margin="24dp"
+        android:background="@drawable/bg_signature_pad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:penColor="@color/black"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Draw your signature here"
+        app:layout_constraintBottom_toBottomOf="@+id/signaturePad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signaturePad" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnClearSignature"
+        style="@style/defaultSecondaryButton"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="Clear Signature"
+        app:layout_constraintEnd_toEndOf="@+id/signaturePad"
+        app:layout_constraintStart_toStartOf="@+id/signaturePad"
+        app:layout_constraintTop_toBottomOf="@+id/signaturePad" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView17"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:gravity="center"
+        android:text="I hereby certify that my data entries and my record of duty status for this 24-hour period are true and correct."
+        app:layout_constraintEnd_toEndOf="@id/signaturePad"
+        app:layout_constraintStart_toStartOf="@+id/signaturePad"
+        app:layout_constraintTop_toBottomOf="@+id/btnClearSignature" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNotReady"
+        style="@style/defaultSecondaryButton"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="Not Ready"
+
+        app:layout_constraintEnd_toEndOf="@+id/signaturePad"
+        app:layout_constraintStart_toStartOf="@+id/signaturePad"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView17" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="@dimen/_10sdp"
+        android:id="@+id/btnAgree"
+        style="@style/defaultPrimaryButton"
+        android:text="Agree"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/signaturePad"
+        app:layout_constraintStart_toStartOf="@+id/signaturePad"
+        app:layout_constraintTop_toBottomOf="@+id/btnNotReady" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

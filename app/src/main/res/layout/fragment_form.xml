@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="Driver"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtDriverName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="DriverName"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textColor="@color/black"
+        />
+    <include layout="@layout/seprator_view" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="Vehicle"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_10sdp"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtVehicle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="None"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        />
+        <include
+            layout="@layout/seprator_view"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="Trailers"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_10sdp"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtTrailor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="None"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        />
+    <include
+        layout="@layout/seprator_view"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="Shipping Documents"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_10sdp"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtShippingDoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="None"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        />
+    <include
+        layout="@layout/seprator_view"
+        />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="Co-Driver"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_10sdp"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtCoDriver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="None"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        />
+    <include
+        layout="@layout/seprator_view"
+        />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSave"
+        style="@style/defaultPrimaryButton"
+        android:text="Save"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

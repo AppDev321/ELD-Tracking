@@ -3,6 +3,7 @@ package com.dopsi.webapp.fragment
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.core.base.BaseFragment
 
@@ -39,6 +40,13 @@ class EventsFragment : BaseFragment<FragmentEventsBinding>(FragmentEventsBinding
         eldChart.showChart(viewDataBinding.chart,dataSet)
 
     }
+    override fun onResume() {
+        super.onResume()
+        activity?.let {
+            it as AppCompatActivity
+            it.supportActionBar?.title = "Events"
+        }
 
+    }
 
 }
