@@ -1,5 +1,6 @@
 package com.core.interfaces
 
+import android.view.MenuItem
 import com.core.extensions.empty
 
 interface BaseNavigator {

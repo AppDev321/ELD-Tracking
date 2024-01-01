@@ -1,11 +1,19 @@
 package com.dopsi.webapp.fragment
 
+import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.core.base.BaseFragment
+import com.core.interfaces.MenuItemClickListener
+import com.dopsi.webapp.R
 
 import com.dopsi.webapp.databinding.FragmentEldLogsBinding
 import com.dopsi.webapp.databinding.FragmentEventsBinding
@@ -18,7 +26,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EventsFragment : BaseFragment<FragmentEventsBinding>(FragmentEventsBinding::inflate) {
+class EventsFragment : BaseFragment<FragmentEventsBinding>(FragmentEventsBinding::inflate),
+    MenuItemClickListener {
     private val dataSet: MutableList<Entry> = mutableListOf()
 
     @Inject
@@ -26,6 +35,8 @@ class EventsFragment : BaseFragment<FragmentEventsBinding>(FragmentEventsBinding
 
 
     override fun initUserInterface(view: View?) {
+
+        setFragmentMenu(R.menu.event_frament_menu,this)
         viewDataBinding.recLogs.apply {
             layoutManager = LinearLayoutManager(requireContext())
         }
@@ -40,6 +51,8 @@ class EventsFragment : BaseFragment<FragmentEventsBinding>(FragmentEventsBinding
         eldChart.showChart(viewDataBinding.chart,dataSet)
 
     }
+
+
     override fun onResume() {
         super.onResume()
         activity?.let {
@@ -48,5 +61,16 @@ class EventsFragment : BaseFragment<FragmentEventsBinding>(FragmentEventsBinding
         }
 
     }
+
+    override fun setMenuItemListener(menuItem: MenuItem) {
+        when(menuItem.itemId)
+        {
+            R.id.event_detail-> showToast("Menu 1")
+            R.id.event_add-> showToast("Menu 2")
+        }
+        super.setMenuItemListener(menuItem)
+    }
+
+
 
 }

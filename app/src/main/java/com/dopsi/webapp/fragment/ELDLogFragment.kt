@@ -21,7 +21,7 @@ class ELDLogFragment : BaseFragment<FragmentEldLogsBinding>(FragmentEldLogsBindi
     }
 
     private fun setupSmoothBottomMenu() {
-
+       // setBackArrowOnFragment()
         viewDataBinding.bottomBar.setOnItemSelectedListener {
             val navController = findNavController(viewDataBinding.mainFragment)
             navController.popBackStack()
@@ -35,6 +35,11 @@ class ELDLogFragment : BaseFragment<FragmentEldLogsBinding>(FragmentEldLogsBindi
                 else -> navController.navigate(R.id.certify_fragment)
             }
         }
+    }
+
+    override fun onDestroyView() {
+
+        super.onDestroyView()
     }
 
 }

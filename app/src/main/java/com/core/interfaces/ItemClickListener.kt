@@ -1,5 +1,6 @@
 package com.core.interfaces
 
+import android.view.MenuItem
 import android.view.View
 
 
@@ -13,6 +14,10 @@ interface CheckChangeListenerItem {
         view: View,
         checkedState: Boolean
     )
+}
+
+interface MenuItemClickListener{
+    fun setMenuItemListener(menuItem: MenuItem) = Unit
 }
 
 

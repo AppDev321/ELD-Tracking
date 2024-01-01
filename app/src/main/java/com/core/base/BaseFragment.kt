@@ -1,24 +1,40 @@
 package com.core.base
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import androidx.viewbinding.ViewBinding
+import com.core.extensions.TAG
 import com.core.extensions.showErrorToast
 import com.core.extensions.showShortToast
+import com.core.interfaces.MenuItemClickListener
 import com.core.module.IODispatcher
 import com.core.module.MainDispatcher
 import com.core.module.UnconfinedDispatcher
+import com.core.utils.AppLogger
 import com.dopsi.webapp.R
 import com.core.utils.DialogManager
 import com.core.utils.Inflate
 import com.core.utils.PreferenceManager
 import com.core.utils.ResourceHelper
+import com.dopsi.webapp.activity.DashboardActivity
+import com.dopsi.webapp.fragment.EventsFragment
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -53,6 +69,7 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
     @UnconfinedDispatcher
     lateinit var unconfinedDispatcher: CoroutineDispatcher
 
+    private var originalNavigationIcon: Drawable? = null
 
 
     var requestingContactPermissionDialogAlreadyVisible = false
@@ -106,6 +123,43 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
     fun showToast(msg: String)
     {
        activity?.showShortToast(msg)
+    }
+     fun setFragmentMenu(requiredMenu:Int, menuItemListener: MenuItemClickListener) {
+        activity?.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(requiredMenu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                menuItemListener.setMenuItemListener(menuItem)
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+    }
+    fun setBackArrowOnFragment()
+    {
+        activity?.let {
+            it as DashboardActivity
+            val navController = findNavController()
+            val appBarConfiguration = AppBarConfiguration(navController.graph)
+            val toolbar = it.findViewById<Toolbar>(R.id.toolbar)
+            toolbar.setupWithNavController(navController, appBarConfiguration)
+
+            /*
+
+            val toolbar = it.findViewById<Toolbar>(R.id.toolbar)
+            it.setSupportActionBar(toolbar)
+            it.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            it.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
+            toolbar.setNavigationOnClickListener {view->
+                it.onBackPressed()
+            }*/
+        }
     }
 
 

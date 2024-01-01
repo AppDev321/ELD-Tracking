@@ -3,9 +3,11 @@ package com.dopsi.webapp.activity
 import android.bluetooth.BluetoothDevice
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.core.extensions.TAG
@@ -59,6 +61,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         drawerToggle.syncState()
 
         binding.navView.setNavigationItemSelectedListener(this)
+        handleBackAndHamburgIcon()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -139,4 +142,19 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
             ).show()
     }
 
+    fun handleBackAndHamburgIcon() {
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true); // show back button
+                binding.toolbar.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
+            } else {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false);
+                drawerToggle.syncState();
+                binding.toolbar.setNavigationOnClickListener(View.OnClickListener {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                })
+                title = resources.getString(R.string.app_name)
+            }
+        }
+    }
 }

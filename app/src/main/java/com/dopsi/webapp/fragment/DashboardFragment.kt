@@ -32,6 +32,7 @@ import java.util.logging.Level.OFF
 class DashboardFragment :
     BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
     override fun initUserInterface(view: View?) {
+
         viewDataBinding.btnLogs.setOnClickListener {
             findNavController().navigate(R.id.move_to_eld_logs_screen)
 
