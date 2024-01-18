@@ -1,33 +1,81 @@
 package com.dopsi.webapp.activity
 
+import com.dopsi.webapp.model.TimeManager
 import android.bluetooth.BluetoothDevice
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.core.extensions.TAG
 import com.core.utils.AppLogger
 import com.core.utils.DialogManager
-import com.core.utils.navigateSafe
 import com.dopsi.webapp.R
+import com.dopsi.webapp.bussinesslogic.ShiftTimeClock
 import com.dopsi.webapp.databinding.ActivityDashboardBinding
+import com.dopsi.webapp.events.ShiftTimeEndEvent
+import com.dopsi.webapp.model.ShiftTimeModel
+import com.dopsi.webapp.viewmodel.DashboardViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
+    ShiftTimeClock.TimerCallback {
+
+    companion object {
+        const val SAVE_SHIFT_TIME = "shift_time"
+
+    }
+
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    private val dashboardViewModel: DashboardViewModel by viewModels()
 
+    private lateinit var shiftTimerUtility: ShiftTimeClock
 
+    @Inject
+    lateinit var timeManager: TimeManager
 
+    override fun onInitialize(savedInstanceState: Bundle?) {
+        super.onInitialize(savedInstanceState)
+        shiftTimerUtility = if (savedInstanceState == null) {
+            timeManager.setServerTime("10:30")
+            AppLogger.e(
+                TAG,
+                "Server current Time setting = ${timeManager.convertLongToTime(timeManager.getAdjustedTime())}"
+            )
+
+            val timeModel = ShiftTimeModel(
+                totalShiftHours = 8,
+                serverTimeInMillis = timeManager.getAdjustedTime(),
+                serverCurrentTime = "10:30:00",
+                shiftStartTime = "08:00:00",
+            )
+            ShiftTimeClock(
+                timeManager,
+                timeModel,
+                this
+            )
+
+        } else {
+            //com.dopsi.webapp.model.TimeManager().setServerTime(get)
+            savedInstanceState.getSerializable(SAVE_SHIFT_TIME) as ShiftTimeClock
+        }
+        shiftTimerUtility.startTimer()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable(SAVE_SHIFT_TIME, shiftTimerUtility.getShiftTimer())
+        super.onSaveInstanceState(outState)
+    }
 
     override fun onDeviceDisconnecting(device: BluetoothDevice) {
         super.onDeviceDisconnecting(device)
@@ -72,30 +120,32 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
                 findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_dashboard_screen)
                 true
             }
+
             R.id.menu_info -> {
                 findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_information_screen)
                 true
             }
-            R.id.menu_dot_inspection ->
-            {
+
+            R.id.menu_dot_inspection -> {
                 findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_dot_screen)
                 true
             }
-            R.id.menu_account ->
-            {
-                findNavController(R.id.nav_host_fragment).navigate( R.id.move_to_account_screen)
+
+            R.id.menu_account -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_account_screen)
                 true
             }
-            R.id.menu_vehicle ->
-            {
-                findNavController(R.id.nav_host_fragment).navigate( R.id.move_to_vehicle_screen)
+
+            R.id.menu_vehicle -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_vehicle_screen)
                 true
             }
-            R.id.menu_co_driver ->
-            {
-                findNavController(R.id.nav_host_fragment).navigate( R.id.move_to_co_driver_screen)
+
+            R.id.menu_co_driver -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.move_to_co_driver_screen)
                 true
             }
+
             else ->
                 false
         }
@@ -103,12 +153,12 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawers()
         else {
             val navHost = findNavController(R.id.nav_host_fragment)
             navHost.currentDestination?.let {
-                when (it.id){
+                when (it.id) {
                     R.id.move_to_information_screen,
                     R.id.move_to_co_driver_screen,
                     R.id.move_to_vehicle_screen,
@@ -116,12 +166,14 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
                     R.id.move_to_dot_screen,
                     R.id.move_to_information_screen ->
                         navHost.navigate(R.id.move_to_dashboard_screen)
+
                     R.id.move_to_dashboard_screen ->
                         showExitConfirmationDialog()
+
                     else -> super.onBackPressed()
 
                 }
-            }?:kotlin.run {
+            } ?: kotlin.run {
                 super.onBackPressed()
             }
 
@@ -133,16 +185,16 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
             "Exit Confirmation",
             "Are you sure you want to exit?",
             positiveButtonText = "Yes",
-            alertDialogListener = object:DialogManager.AlertDialogListener{
+            alertDialogListener = object : DialogManager.AlertDialogListener {
                 override fun onPositiveButtonClicked() {
                     finish()
                     super.onPositiveButtonClicked()
                 }
             }
-            ).show()
+        ).show()
     }
 
-    fun handleBackAndHamburgIcon() {
+    private fun handleBackAndHamburgIcon() {
         supportFragmentManager.addOnBackStackChangedListener {
             if (supportFragmentManager.backStackEntryCount > 0) {
                 supportActionBar?.setDisplayHomeAsUpEnabled(true); // show back button
@@ -156,5 +208,20 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
                 title = resources.getString(R.string.app_name)
             }
         }
+    }
+
+    override fun onTick(timeModel: ShiftTimeModel) {
+        dashboardViewModel.updateShiftTimeData(timeModel)
+        AppLogger.e(TAG, "Consumed = ${timeModel.consumedTime}")
+        AppLogger.e(TAG, "remaing = ${timeModel.remainingTime}")
+        AppLogger.e(
+            TAG,
+            "Server current Time = ${TimeManager().convertLongToTime(timeModel.serverTimeInMillis)}"
+        )
+        //  EventBus.getDefault().post(ShiftTimeUpdateEvent(timeModel))
+    }
+
+    override fun onFinish() {
+        EventBus.getDefault().post(ShiftTimeEndEvent())
     }
 }

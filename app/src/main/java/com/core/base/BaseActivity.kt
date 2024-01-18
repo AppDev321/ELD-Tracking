@@ -60,4 +60,7 @@ abstract class BaseActivity<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
 }
