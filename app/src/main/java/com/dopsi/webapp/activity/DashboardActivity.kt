@@ -14,6 +14,7 @@ import com.core.utils.AppLogger
 import com.core.utils.DialogManager
 import com.dopsi.webapp.R
 import com.dopsi.webapp.bussinesslogic.ShiftTimeClock
+import com.dopsi.webapp.bussinesslogic.TimeCycle
 import com.dopsi.webapp.bussinesslogic.WeekCycleTimeClock
 import com.dopsi.webapp.bussinesslogic.model.ShiftTimeModel
 import com.dopsi.webapp.bussinesslogic.model.TimeManager
@@ -27,7 +28,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
-    ShiftTimeClock.TimerCallback, WeekCycleTimeClock.TimerCallback {
+    ShiftTimeClock.TimerCallback, WeekCycleTimeClock.TimerCallback, TimeCycle.TimerCallback {
 
     companion object {
         const val SAVE_SHIFT_TIME = "shift_time"
@@ -55,20 +56,17 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         val weekCycleTimeClock = WeekTimeModel(
             totalWeekCycleHours = 70,
             serverTimeInMillis = timeManager.getAdjustedTime(),
-            weekCycleStartTime = "19/01/2024 08:00:00",
-            lastDayShiftStartTime = "20/01/2024 08:00:00",
-            lastDayShiftCompletedTime = "20/01/2024 16:00:00",
-            currentDayShiftStartTime = "22/01/2024 08:00:00",
-            currentDayShiftCompletedTime = ""
+            weekCycleStartTime = "19/01/2024 08:00",
+            lastSavedCycleTime = "19/01/2024 28:10",
         )
+        TimeCycle(weekCycleTimeClock,this)
 
-
-        val weekClock = WeekCycleTimeClock(
+       /* val weekClock = WeekCycleTimeClock(
             timeManager,
             weekCycleTimeClock,
             this
         )
-        weekClock.startTimer()
+        weekClock.startTimer()*/
 
         val timeModel = if (savedInstanceState == null) {
             ShiftTimeModel(
@@ -85,7 +83,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
             timeModel,
             this
         )
-        shiftTimerUtility.startTimer()
+      //  shiftTimerUtility.startTimer()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -252,5 +250,14 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onWeekCycleFinish() {
+    }
+
+    override fun onCycleTick(totalConsumedTime: String) {
+        AppLogger.e(TAG, "Week Consumed = ${totalConsumedTime}")
+
+    }
+
+    override fun onCycleFinish() {
+        TODO("Not yet implemented")
     }
 }

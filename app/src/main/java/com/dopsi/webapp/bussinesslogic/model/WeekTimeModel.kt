@@ -28,5 +28,6 @@ data class WeekTimeModel(
     val lastShiftStartTimeInMillis:Long = 0,
     val lastShiftCompletedTimeInMillis:Long = 0,
     val lastSavedCycleTimeInMillis:Long = 0,
+    val lastSavedCycleTime : String = "",
 
     ) : Serializable
