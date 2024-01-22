@@ -1,4 +1,4 @@
-package com.dopsi.webapp.model
+package com.dopsi.webapp.bussinesslogic.model
 
 import java.io.Serializable
 

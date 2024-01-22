@@ -186,12 +186,12 @@
             <com.dopsi.webapp.utils.ProgressWheel
                 android:id="@+id/pgCycle"
                 style="@style/progressDashboard"
-                app:countText="27:58"
+                app:countText="00:00"
                 app:definitionText="Cycle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/pgShift"
                 app:layout_constraintStart_toStartOf="parent"
-                app:percentage="90" />
+                app:percentage="0" />
 
             <com.dopsi.webapp.utils.ProgressWheel
                 android:id="@+id/pgShift"

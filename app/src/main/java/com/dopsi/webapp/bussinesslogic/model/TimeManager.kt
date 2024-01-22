@@ -1,21 +1,20 @@
-package com.dopsi.webapp.model
+package com.dopsi.webapp.bussinesslogic.model
 
 import android.os.Handler
 import android.os.Looper
 import com.dopsi.webapp.bussinesslogic.DateTimeFormat
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.TimeZone
 import javax.inject.Inject
 
 class TimeManager @Inject constructor() {
     private var serverTimeOffset: Long = 0
-    private val dateFormat = DateTimeFormat.shiftTimeFormat
+    private val dateFormat = DateTimeFormat.completeDateFormat
     private val handler = Handler(Looper.getMainLooper())
     private val updateInterval = 60 * 1000L // Update every minute
 
     init {
-      //  startPeriodicUpdate()
+     //  startPeriodicUpdate()
     }
 
     private fun startPeriodicUpdate() {
@@ -27,7 +26,7 @@ class TimeManager @Inject constructor() {
         }, updateInterval)
     }
     fun setServerTime(timeString: String) {
-        val sdf = SimpleDateFormat("HH:mm")
+        val sdf = SimpleDateFormat(DateTimeFormat.completeDateRequired)
         //sdf.timeZone = TimeZone.getTimeZone("UTC")
         val date = sdf.parse(timeString)
         setServerTime(date?.time ?: 0)
@@ -39,11 +38,20 @@ class TimeManager @Inject constructor() {
     }
 
     fun getAdjustedTime(): Long {
-       // return  serverTimeOffset
         return System.currentTimeMillis() + serverTimeOffset
     }
 
     fun convertLongToTime(time: Long): String {
+        val date = Date(time)
+        return DateTimeFormat.timeRequiredFormat.format(date)
+    }
+
+    fun convertLongToDate(time: Long): String {
+        val date = Date(time)
+        return DateTimeFormat.dateRequiredFormat.format(date)
+    }
+
+    fun convertLongToCompleteTime(time: Long): String {
         val date = Date(time)
         return dateFormat.format(date)
     }

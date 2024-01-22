@@ -1,8 +1,8 @@
 package com.dopsi.webapp.bussinesslogic
 
-import com.dopsi.webapp.model.ShiftTimeModel
-import com.dopsi.webapp.model.TimeManager
-import dagger.hilt.android.AndroidEntryPoint
+
+import com.dopsi.webapp.bussinesslogic.model.ShiftTimeModel
+import com.dopsi.webapp.bussinesslogic.model.TimeManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -12,17 +12,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.Serializable
 import java.util.Locale
-import javax.inject.Inject
+
 
 
 class ShiftTimeClock(
- private var timeManager: TimeManager,
+    private var timeManager: TimeManager,
     private var shiftTimeModel: ShiftTimeModel,
     private val timerCallback: TimerCallback
 ):Serializable {
-
-
-
 
     interface TimerCallback {
         fun onTick(timeModel: ShiftTimeModel)
@@ -31,7 +28,7 @@ class ShiftTimeClock(
     private val totalShiftHours: Int = shiftTimeModel.totalShiftHours
     private var serverCurrentTime: Long = shiftTimeModel.serverTimeInMillis
     private val shiftStartTime: String = shiftTimeModel.shiftStartTime
-    private val dateFormat = DateTimeFormat.shiftTimeFormat
+    private val dateFormat = DateTimeFormat.completeDateFormat
     private lateinit var job: Job
     private var consumedShiftTimeMillis: Long = 0
 
@@ -60,7 +57,6 @@ class ShiftTimeClock(
                     "%02d:%02d",
                     remainingHours,
                     remainingMinutesDisplay
-
                 )
 
                 val consumedTime = String.format(
@@ -89,9 +85,9 @@ class ShiftTimeClock(
                     timerCallback.onTick(timeModel)
                 }
 
-                //delay(60 * 1000) // Update every minute
-                delay( 1000) // Update every seconds
-                remainingTimeMillis -= 60 * 1000
+                delay(DateTimeFormat.shiftUpdateIntervalTime) // Update every minute
+               // delay( 1000) // Update every seconds
+                remainingTimeMillis -= DateTimeFormat.shiftUpdateIntervalTime
             }
 
             withContext(Dispatchers.Main) {
@@ -109,7 +105,7 @@ class ShiftTimeClock(
         this.shiftTimeModel = timeModel
     }
 
-    fun getShiftTimer() :ShiftTimeModel
+    fun getShiftTimer() : ShiftTimeModel
     {
        return this.shiftTimeModel
     }

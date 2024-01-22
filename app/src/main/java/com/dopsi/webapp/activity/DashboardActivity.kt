@@ -1,6 +1,5 @@
 package com.dopsi.webapp.activity
 
-import com.dopsi.webapp.model.TimeManager
 import android.bluetooth.BluetoothDevice
 import android.os.Bundle
 import android.view.MenuItem
@@ -15,19 +14,20 @@ import com.core.utils.AppLogger
 import com.core.utils.DialogManager
 import com.dopsi.webapp.R
 import com.dopsi.webapp.bussinesslogic.ShiftTimeClock
+import com.dopsi.webapp.bussinesslogic.WeekCycleTimeClock
+import com.dopsi.webapp.bussinesslogic.model.ShiftTimeModel
+import com.dopsi.webapp.bussinesslogic.model.TimeManager
+import com.dopsi.webapp.bussinesslogic.model.WeekTimeModel
 import com.dopsi.webapp.databinding.ActivityDashboardBinding
-import com.dopsi.webapp.events.ShiftTimeEndEvent
-import com.dopsi.webapp.model.ShiftTimeModel
 import com.dopsi.webapp.viewmodel.DashboardViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
-    ShiftTimeClock.TimerCallback {
+    ShiftTimeClock.TimerCallback, WeekCycleTimeClock.TimerCallback {
 
     companion object {
         const val SAVE_SHIFT_TIME = "shift_time"
@@ -46,29 +46,45 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onInitialize(savedInstanceState: Bundle?) {
         super.onInitialize(savedInstanceState)
-        shiftTimerUtility = if (savedInstanceState == null) {
-            timeManager.setServerTime("10:30")
-            AppLogger.e(
-                TAG,
-                "Server current Time setting = ${timeManager.convertLongToTime(timeManager.getAdjustedTime())}"
-            )
+        timeManager.setServerTime("22/01/2024 8:00")
+        AppLogger.e(
+            TAG,
+            "Server current Time setting = ${timeManager.convertLongToCompleteTime(timeManager.getAdjustedTime())}"
+        )
 
-            val timeModel = ShiftTimeModel(
+        val weekCycleTimeClock = WeekTimeModel(
+            totalWeekCycleHours = 70,
+            serverTimeInMillis = timeManager.getAdjustedTime(),
+            weekCycleStartTime = "21/01/2024 08:00:00",
+            lastDayShiftStartTime = "21/01/2024 08:00:00",
+            lastDayShiftCompletedTime = "21/01/2024 16:00:00",
+           currentDayShiftStartTime = "22/01/2024 08:00:00",
+            currentDayShiftCompletedTime = ""
+        )
+
+
+        val weekClock = WeekCycleTimeClock(
+            timeManager,
+            weekCycleTimeClock,
+            this
+        )
+        weekClock.startTimer()
+
+        val timeModel = if (savedInstanceState == null) {
+            ShiftTimeModel(
                 totalShiftHours = 8,
                 serverTimeInMillis = timeManager.getAdjustedTime(),
-                serverCurrentTime = "10:30:00",
-                shiftStartTime = "08:00:00",
-            )
-            ShiftTimeClock(
-                timeManager,
-                timeModel,
-                this
+                shiftStartTime = "22/01/2024 08:00:00",
             )
 
         } else {
-            //com.dopsi.webapp.model.TimeManager().setServerTime(get)
-            savedInstanceState.getSerializable(SAVE_SHIFT_TIME) as ShiftTimeClock
+            savedInstanceState.getSerializable(SAVE_SHIFT_TIME) as ShiftTimeModel
         }
+        shiftTimerUtility = ShiftTimeClock(
+            timeManager,
+            timeModel,
+            this
+        )
         shiftTimerUtility.startTimer()
     }
 
@@ -216,12 +232,25 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         AppLogger.e(TAG, "remaing = ${timeModel.remainingTime}")
         AppLogger.e(
             TAG,
-            "Server current Time = ${TimeManager().convertLongToTime(timeModel.serverTimeInMillis)}"
+            "Server current Time = ${TimeManager().convertLongToCompleteTime(timeModel.serverTimeInMillis)}"
         )
         //  EventBus.getDefault().post(ShiftTimeUpdateEvent(timeModel))
     }
 
     override fun onFinish() {
-        EventBus.getDefault().post(ShiftTimeEndEvent())
+
+    }
+
+    override fun onWeekCycleTick(timeModel: WeekTimeModel) {
+        dashboardViewModel.updateWeekCycleTimeData(timeModel)
+        AppLogger.e(TAG, "Week Consumed = ${timeModel.consumedTime}")
+        AppLogger.e(TAG, "Week remaining = ${timeModel.remainingTime}")
+        AppLogger.e(
+            TAG,
+            "Server current Time = ${TimeManager().convertLongToCompleteTime(timeModel.serverTimeInMillis)}"
+        )
+    }
+
+    override fun onWeekCycleFinish() {
     }
 }

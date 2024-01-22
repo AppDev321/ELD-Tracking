@@ -16,10 +16,12 @@ import com.dopsi.webapp.events.ShiftTimeUpdateEvent
 import com.dopsi.webapp.intefaces.DriverStatusEvent
 import com.dopsi.webapp.viewmodel.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 
 
 @AndroidEntryPoint
@@ -64,18 +66,38 @@ class DashboardFragment :
     private fun initViewModelObserver()
     {
         lifecycleScope.launchWhenResumed {
-            dashboardViewModel.shiftTimeFlow.collect{
-                withContext(mainDispatcher)
-                {
-                    with(it) {
-                        with(viewDataBinding.pgShift) {
-                            val progress = progressPercentage.toInt()
-                            setPercentage(progress)
-                            setStepCountText(consumedTime)
+
+            launch {
+                dashboardViewModel.shiftTimeFlow.collect{
+                    withContext(mainDispatcher)
+                    {
+                        with(it) {
+                            with(viewDataBinding.pgShift) {
+                                val progress = progressPercentage.toInt()
+                                setPercentage(progress)
+                                setStepCountText(consumedTime)
+                            }
                         }
                     }
                 }
             }
+
+            launch {
+                dashboardViewModel.weekCycleTimeFlow.collect{
+                    withContext(mainDispatcher)
+                    {
+                        with(it)
+                        {
+                            with(viewDataBinding.pgCycle) {
+                                val progress = progressPercentage.toInt()
+                                setPercentage(progress)
+                                setStepCountText(consumedTime)
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     }
 

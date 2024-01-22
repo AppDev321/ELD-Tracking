@@ -1,6 +1,5 @@
 package com.dopsi.webapp.module
 
-import com.dopsi.webapp.model.TimeManager
 import android.content.Context
 import com.dopsi.webapp.model.AccountDataFactory
 import com.dopsi.webapp.model.FragmentDTODataFactory
@@ -12,7 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-
+import com.dopsi.webapp.bussinesslogic.model.TimeManager
 @Module
 @InstallIn(SingletonComponent::class)
 object UICommonModule {
