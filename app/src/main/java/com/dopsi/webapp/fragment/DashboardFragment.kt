@@ -91,7 +91,7 @@ class DashboardFragment :
                             with(viewDataBinding.pgCycle) {
                                 val progress = progressPercentage.toInt()
                                 setPercentage(progress)
-                                setStepCountText(consumedTime)
+                                setStepCountText(remainingTime)
                             }
                         }
                     }

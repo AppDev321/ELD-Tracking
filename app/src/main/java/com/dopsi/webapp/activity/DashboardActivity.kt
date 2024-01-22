@@ -55,10 +55,10 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         val weekCycleTimeClock = WeekTimeModel(
             totalWeekCycleHours = 70,
             serverTimeInMillis = timeManager.getAdjustedTime(),
-            weekCycleStartTime = "21/01/2024 08:00:00",
-            lastDayShiftStartTime = "21/01/2024 08:00:00",
-            lastDayShiftCompletedTime = "21/01/2024 16:00:00",
-           currentDayShiftStartTime = "22/01/2024 08:00:00",
+            weekCycleStartTime = "19/01/2024 08:00:00",
+            lastDayShiftStartTime = "20/01/2024 08:00:00",
+            lastDayShiftCompletedTime = "20/01/2024 16:00:00",
+            currentDayShiftStartTime = "22/01/2024 08:00:00",
             currentDayShiftCompletedTime = ""
         )
 

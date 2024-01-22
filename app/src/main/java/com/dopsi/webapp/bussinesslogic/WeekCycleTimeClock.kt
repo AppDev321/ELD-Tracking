@@ -76,7 +76,7 @@ class WeekCycleTimeClock(
                 val remainingMinutesDisplay = remainingMinutes % 60
 
                 // Calculate consumedMinutes and consumedHours for the current day
-                val consumedMinutes = consumedShiftTimeMillis / (60 * 1000)
+                val consumedMinutes = totalConsumedShiftTimeMillis / (60 * 1000)
                 val consumedHours = consumedMinutes / 60
                 val consumedMinutesDisplay = consumedMinutes % 60
 
