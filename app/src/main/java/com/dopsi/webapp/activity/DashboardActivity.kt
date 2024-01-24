@@ -13,26 +13,32 @@ import com.core.extensions.TAG
 import com.core.utils.AppLogger
 import com.core.utils.DialogManager
 import com.dopsi.webapp.R
+import com.dopsi.webapp.bussinesslogic.DriveTimeClock
 import com.dopsi.webapp.bussinesslogic.ShiftTimeClock
-import com.dopsi.webapp.bussinesslogic.TimeCycle
-import com.dopsi.webapp.bussinesslogic.WeekCycleTimeClock
+import com.dopsi.webapp.bussinesslogic.WeekTimeClock
+import com.dopsi.webapp.bussinesslogic.model.DriveTimeModel
 import com.dopsi.webapp.bussinesslogic.model.ShiftTimeModel
 import com.dopsi.webapp.bussinesslogic.model.TimeManager
 import com.dopsi.webapp.bussinesslogic.model.WeekTimeModel
 import com.dopsi.webapp.databinding.ActivityDashboardBinding
+import com.dopsi.webapp.intefaces.TimerCallback
 import com.dopsi.webapp.viewmodel.DashboardViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.time.delay
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
-    ShiftTimeClock.TimerCallback, WeekCycleTimeClock.TimerCallback, TimeCycle.TimerCallback {
+    TimerCallback {
 
     companion object {
         const val SAVE_SHIFT_TIME = "shift_time"
-
+        const val SAVE_WEEK_TIME = "week_time"
+        const val SAVE_DRIVE_TIME = "drive_time"
     }
 
     private lateinit var binding: ActivityDashboardBinding
@@ -41,32 +47,21 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     private val dashboardViewModel: DashboardViewModel by viewModels()
 
     private lateinit var shiftTimerUtility: ShiftTimeClock
+    private lateinit var weekTimerUtility: WeekTimeClock
+    private lateinit var driveTimerUtility: DriveTimeClock
+
 
     @Inject
     lateinit var timeManager: TimeManager
 
     override fun onInitialize(savedInstanceState: Bundle?) {
         super.onInitialize(savedInstanceState)
-        timeManager.setServerTime("22/01/2024 8:00")
+
+        timeManager.setServerTime("22/01/2024 15:01")
         AppLogger.e(
             TAG,
             "Server current Time setting = ${timeManager.convertLongToCompleteTime(timeManager.getAdjustedTime())}"
         )
-
-        val weekCycleTimeClock = WeekTimeModel(
-            totalWeekCycleHours = 70,
-            serverTimeInMillis = timeManager.getAdjustedTime(),
-            weekCycleStartTime = "19/01/2024 08:00",
-            lastSavedCycleTime = "19/01/2024 28:10",
-        )
-        TimeCycle(weekCycleTimeClock,this)
-
-       /* val weekClock = WeekCycleTimeClock(
-            timeManager,
-            weekCycleTimeClock,
-            this
-        )
-        weekClock.startTimer()*/
 
         val timeModel = if (savedInstanceState == null) {
             ShiftTimeModel(
@@ -78,16 +73,53 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             savedInstanceState.getSerializable(SAVE_SHIFT_TIME) as ShiftTimeModel
         }
+
+
         shiftTimerUtility = ShiftTimeClock(
             timeManager,
             timeModel,
             this
         )
-      //  shiftTimerUtility.startTimer()
+      shiftTimerUtility.startTimer()
+
+        val weekTimeModel = if (savedInstanceState == null) {
+            WeekTimeModel(
+                totalWeekCycleHours = 70,
+                serverTimeInMillis = timeManager.getAdjustedTime(),
+                weekCycleStartTime = "19/01/2024 08:00",
+                lastSavedCycleTime = "35:00",
+            )
+        } else {
+            savedInstanceState.getSerializable(SAVE_WEEK_TIME) as WeekTimeModel
+        }
+        weekTimerUtility = WeekTimeClock(timeManager,weekTimeModel,this)
+        weekTimerUtility .startCycle()
+
+
+
+
+        val driveTimeModel = if (savedInstanceState == null) {
+            DriveTimeModel(
+                totalDriveHours = 14,
+                serverTimeInMillis = timeManager.getAdjustedTime(),
+                driveStartTime = "19/01/2024 08:00",
+                lastSavedDriveTime = "01:00",
+            )
+        } else {
+            savedInstanceState.getSerializable(SAVE_DRIVE_TIME) as DriveTimeModel
+        }
+
+
+        driveTimerUtility = DriveTimeClock(timeManager,driveTimeModel,this)
+        driveTimerUtility.startDriveTimer()
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putSerializable(SAVE_SHIFT_TIME, shiftTimerUtility.getShiftTimer())
+        outState.putSerializable(SAVE_WEEK_TIME, weekTimerUtility.getCycleTimer())
+        outState.putSerializable(SAVE_DRIVE_TIME, driveTimerUtility.getDriveTimer())
+
         super.onSaveInstanceState(outState)
     }
 
@@ -224,40 +256,23 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onTick(timeModel: ShiftTimeModel) {
-        dashboardViewModel.updateShiftTimeData(timeModel)
-        AppLogger.e(TAG, "Consumed = ${timeModel.consumedTime}")
+    override fun onShiftTimeTick(timeModel: ShiftTimeModel) {
+        dashboardViewModel.getNavigator()?.updateShiftTime(timeModel)
+       /* AppLogger.e(TAG, "Consumed = ${timeModel.consumedTime}")
         AppLogger.e(TAG, "remaing = ${timeModel.remainingTime}")
         AppLogger.e(
             TAG,
             "Server current Time = ${TimeManager().convertLongToCompleteTime(timeModel.serverTimeInMillis)}"
-        )
-        //  EventBus.getDefault().post(ShiftTimeUpdateEvent(timeModel))
-    }
-
-    override fun onFinish() {
-
+        )*/
     }
 
     override fun onWeekCycleTick(timeModel: WeekTimeModel) {
-        dashboardViewModel.updateWeekCycleTimeData(timeModel)
-        AppLogger.e(TAG, "Week Consumed = ${timeModel.consumedTime}")
-        AppLogger.e(TAG, "Week remaining = ${timeModel.remainingTime}")
-        AppLogger.e(
-            TAG,
-            "Server current Time = ${TimeManager().convertLongToCompleteTime(timeModel.serverTimeInMillis)}"
-        )
+        dashboardViewModel.getNavigator()?.updateWeekTime(timeModel)
     }
 
-    override fun onWeekCycleFinish() {
+    override fun onDriveTimeTick(timeModel: DriveTimeModel) {
+        dashboardViewModel.getNavigator()?.updateDriveTime(timeModel)
     }
 
-    override fun onCycleTick(totalConsumedTime: String) {
-        AppLogger.e(TAG, "Week Consumed = ${totalConsumedTime}")
 
-    }
-
-    override fun onCycleFinish() {
-        TODO("Not yet implemented")
-    }
 }

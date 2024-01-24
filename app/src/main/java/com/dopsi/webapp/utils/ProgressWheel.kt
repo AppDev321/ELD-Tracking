@@ -181,7 +181,7 @@ class ProgressWheel : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawArc(mRimBounds, 0f, 360f, false, mCirclePaint)
-        canvas.drawArc(mProgressBounds, -90f, mPercentage.toFloat(), false, mBarPaint)
+        canvas.drawArc(mProgressBounds, -90f, mPercentage.toFloat() * 3.6f , false, mBarPaint)
 
         if (mCountText != null){
             val horizontalCountTextOffset = mCountTextPaint.measureText(mCountText) / 2

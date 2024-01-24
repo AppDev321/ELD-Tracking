@@ -2,6 +2,7 @@ package com.dopsi.webapp.bussinesslogic
 
 import com.dopsi.webapp.bussinesslogic.model.TimeManager
 import com.dopsi.webapp.bussinesslogic.model.WeekTimeModel
+import com.dopsi.webapp.intefaces.TimerCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,10 +19,6 @@ class WeekCycleTimeClock(
     private val timerCallback: TimerCallback
 ) : java.io.Serializable {
 
-    interface TimerCallback {
-        fun onWeekCycleTick(timeModel: WeekTimeModel)
-        fun onWeekCycleFinish()
-    }
 
     private val totalWeekCycle: Int = weekTimeModel.totalWeekCycleHours
     private var serverCurrentTime: Long = weekTimeModel.serverTimeInMillis
@@ -103,7 +100,7 @@ class WeekCycleTimeClock(
                         cycleStartTimeMillis,
                         consumedTime,
                         remainingTime,
-                        timeManager.convertLongToTime(currentTimeMillis),
+                        timeManager.convertMillisToTime(currentTimeMillis),
                         weekCycleStartTime,
                         lastDayShiftStartTime,
                         lastDayShiftCompletedTime,

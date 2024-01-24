@@ -5,6 +5,7 @@ import android.os.Looper
 import com.dopsi.webapp.bussinesslogic.DateTimeFormat
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TimeManager @Inject constructor() {
@@ -32,7 +33,7 @@ class TimeManager @Inject constructor() {
         setServerTime(date?.time ?: 0)
     }
 
-    fun setServerTime(serverTime: Long) {
+    private fun setServerTime(serverTime: Long) {
         val deviceTime = System.currentTimeMillis()
         serverTimeOffset = serverTime - deviceTime
     }
@@ -41,10 +42,6 @@ class TimeManager @Inject constructor() {
         return System.currentTimeMillis() + serverTimeOffset
     }
 
-    fun convertLongToTime(time: Long): String {
-        val date = Date(time)
-        return DateTimeFormat.timeRequiredFormat.format(date)
-    }
 
     fun convertLongToDate(time: Long): String {
         val date = Date(time)
@@ -59,5 +56,20 @@ class TimeManager @Inject constructor() {
     fun updateServerTimeOffset() {
         val deviceTime = System.currentTimeMillis()
         serverTimeOffset += (deviceTime - (getAdjustedTime() - serverTimeOffset))
+    }
+
+
+
+     fun convertMillisToTime(millis: Long): String {
+        val hours = TimeUnit.MILLISECONDS.toHours(millis)
+        val minutes = (TimeUnit.MILLISECONDS.toMinutes(millis) % 60).toInt()
+        return String.format("%02d:%02d", hours, minutes)
+    }
+
+    fun convertLongToTime(timeString: String): Long {
+        val components = timeString.split(":")
+        val hours = components[0].toLong()
+        val minutes = components[1].toLong()
+        return hours * 60 * 60 * 1000 + minutes * 60 * 1000
     }
 }

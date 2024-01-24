@@ -3,6 +3,7 @@ package com.dopsi.webapp.bussinesslogic
 
 import com.dopsi.webapp.bussinesslogic.model.ShiftTimeModel
 import com.dopsi.webapp.bussinesslogic.model.TimeManager
+import com.dopsi.webapp.intefaces.TimerCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,10 +22,7 @@ class ShiftTimeClock(
     private val timerCallback: TimerCallback
 ):Serializable {
 
-    interface TimerCallback {
-        fun onTick(timeModel: ShiftTimeModel)
-        fun onFinish()
-    }
+
     private val totalShiftHours: Int = shiftTimeModel.totalShiftHours
     private var serverCurrentTime: Long = shiftTimeModel.serverTimeInMillis
     private val shiftStartTime: String = shiftTimeModel.shiftStartTime
@@ -82,7 +80,7 @@ class ShiftTimeClock(
                     )
                     timeModel.serverTimeInMillis = timeManager.getAdjustedTime()
                     saveShiftTimer(timeModel)
-                    timerCallback.onTick(timeModel)
+                    timerCallback.onShiftTimeTick(timeModel)
                 }
 
                 delay(DateTimeFormat.shiftUpdateIntervalTime) // Update every minute
@@ -91,7 +89,7 @@ class ShiftTimeClock(
             }
 
             withContext(Dispatchers.Main) {
-                timerCallback.onFinish()
+                timerCallback.onShiftTimeFinish()
             }
         }
     }

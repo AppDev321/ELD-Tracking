@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -36,6 +37,9 @@ import com.core.utils.ResourceHelper
 import com.dopsi.webapp.activity.DashboardActivity
 import com.dopsi.webapp.fragment.EventsFragment
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fragment() {
@@ -162,5 +166,16 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         }
     }
 
-
+     fun <T> collectFlow(
+        flow: Flow<T>,
+        block: T.() -> Unit
+    ) {
+        lifecycleScope.launch {
+            flow.collect {
+                withContext(mainDispatcher) {
+                    block(it)
+                }
+            }
+        }
+    }
 }

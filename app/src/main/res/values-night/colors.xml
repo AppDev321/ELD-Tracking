@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+
+    <color name="primaryColor">@color/black</color>
+    <color name="colorPrimaryVariant">@color/black</color>
+    <color name="colorSecondary">@color/black</color>
+    <color name="colorSecondaryVariant">@color/black</color>
+
+
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="black">#FFFFFF</color>
+    <color name="white">#232323</color>
+
+</resources>

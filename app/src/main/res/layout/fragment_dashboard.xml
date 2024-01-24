@@ -65,7 +65,7 @@
                 android:fontFamily="@font/semi_bold"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:text="Your Status"
-              app:layout_constraintBottom_toTopOf="@+id/txtDriverStatus"
+                app:layout_constraintBottom_toTopOf="@+id/txtDriverStatus"
                 app:layout_constraintEnd_toStartOf="@+id/appCompatImageView5"
                 app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
@@ -135,9 +135,9 @@
                     android:padding="0dp"
                     android:text="On Duty"
                     android:textSize="12dp"
-                    app:layout_constraintEnd_toEndOf="@+id/arc_progress"
-                    app:layout_constraintStart_toStartOf="@+id/arc_progress"
-                    app:layout_constraintTop_toBottomOf="@+id/arc_progress" />
+                    app:layout_constraintEnd_toEndOf="@+id/driveProgress"
+                    app:layout_constraintStart_toStartOf="@+id/driveProgress"
+                    app:layout_constraintTop_toBottomOf="@+id/driveProgress" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtStatus"
@@ -147,33 +147,33 @@
                     android:text="Drive"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
-                    app:layout_constraintEnd_toEndOf="@+id/arc_progress"
-                    app:layout_constraintStart_toStartOf="@+id/arc_progress"
-                    app:layout_constraintTop_toBottomOf="@+id/txtTime" />
+                    app:layout_constraintEnd_toEndOf="@+id/driveProgress"
+                    app:layout_constraintStart_toStartOf="@+id/driveProgress"
+                    app:layout_constraintTop_toBottomOf="@+id/txtDriveTime" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtTime"
+                    android:id="@+id/txtDriveTime"
                     style="@style/TextFontBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bold"
-                    android:text="04:10PM"
+                    android:text="00:00"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_18sdp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/arc_progress"
-                    app:layout_constraintEnd_toEndOf="@+id/arc_progress"
-                    app:layout_constraintStart_toStartOf="@+id/arc_progress"
-                    app:layout_constraintTop_toTopOf="@+id/arc_progress" />
+                    app:layout_constraintBottom_toBottomOf="@+id/driveProgress"
+                    app:layout_constraintEnd_toEndOf="@+id/driveProgress"
+                    app:layout_constraintStart_toStartOf="@+id/driveProgress"
+                    app:layout_constraintTop_toTopOf="@+id/driveProgress" />
 
 
                 <com.dopsi.webapp.utils.ArcProgress
-                    android:id="@+id/arc_progress"
+                    android:id="@+id/driveProgress"
                     android:layout_width="@dimen/_150sdp"
                     android:layout_height="@dimen/_150sdp"
                     app:arc_bottom_text_size="@dimen/_18sdp"
                     app:arc_finished_color="#17BEE2"
-                    app:arc_progress="60"
+                    app:arc_progress="0"
                     app:arc_stroke_width="@dimen/_15sdp"
                     app:arc_text_color="@color/black"
                     app:arc_text_size="@dimen/_1sdp"
@@ -191,7 +191,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/pgShift"
                 app:layout_constraintStart_toStartOf="parent"
-                app:percentage="0" />
+                app:percentage="0"
+                />
 
             <com.dopsi.webapp.utils.ProgressWheel
                 android:id="@+id/pgShift"
