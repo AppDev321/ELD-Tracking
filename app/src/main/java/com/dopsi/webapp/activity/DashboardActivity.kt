@@ -25,9 +25,6 @@ import com.dopsi.webapp.intefaces.TimerCallback
 import com.dopsi.webapp.viewmodel.DashboardViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.time.delay
 import javax.inject.Inject
 
 
@@ -57,7 +54,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     override fun onInitialize(savedInstanceState: Bundle?) {
         super.onInitialize(savedInstanceState)
 
-        timeManager.setServerTime("22/01/2024 15:01")
+        timeManager.setServerTime("21/01/2024 15:01")
         AppLogger.e(
             TAG,
             "Server current Time setting = ${timeManager.convertLongToCompleteTime(timeManager.getAdjustedTime())}"
@@ -67,7 +64,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
             ShiftTimeModel(
                 totalShiftHours = 8,
                 serverTimeInMillis = timeManager.getAdjustedTime(),
-                shiftStartTime = "22/01/2024 08:00:00",
+                shiftStartTime = "21/01/2024 08:00:00",
             )
 
         } else {
@@ -257,7 +254,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onShiftTimeTick(timeModel: ShiftTimeModel) {
-        dashboardViewModel.getNavigator()?.updateShiftTime(timeModel)
+        dashboardViewModel.updateShiftTimeData(timeModel)
        /* AppLogger.e(TAG, "Consumed = ${timeModel.consumedTime}")
         AppLogger.e(TAG, "remaing = ${timeModel.remainingTime}")
         AppLogger.e(
@@ -267,11 +264,11 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onWeekCycleTick(timeModel: WeekTimeModel) {
-        dashboardViewModel.getNavigator()?.updateWeekTime(timeModel)
+        dashboardViewModel.updateWeekCycleTimeData(timeModel)
     }
 
-    override fun onDriveTimeTick(timeModel: DriveTimeModel) {
-        dashboardViewModel.getNavigator()?.updateDriveTime(timeModel)
+    override fun onDriveTimeTick(model: DriveTimeModel) {
+        dashboardViewModel.updateDriveTimeData(model)
     }
 
 
