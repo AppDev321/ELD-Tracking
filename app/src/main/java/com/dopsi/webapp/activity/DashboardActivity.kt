@@ -50,66 +50,48 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
 
     @Inject
     lateinit var timeManager: TimeManager
-
     override fun onInitialize(savedInstanceState: Bundle?) {
         super.onInitialize(savedInstanceState)
+        setupTimeModels(savedInstanceState)
+        setupTimers()
+    }
 
-        timeManager.setServerTime("21/01/2024 15:01")
-        AppLogger.e(
-            TAG,
-            "Server current Time setting = ${timeManager.convertLongToCompleteTime(timeManager.getAdjustedTime())}"
+    private fun setupTimeModels(savedInstanceState: Bundle?) {
+        val serverTime = "21/01/2024 15:01"
+        timeManager.setServerTime(serverTime)
+
+        val defaultShiftTimeModel = ShiftTimeModel(
+            totalShiftHours = 8,
+            serverTimeInMillis = timeManager.getAdjustedTime(),
+            shiftStartTime = "21/01/2024 08:00:00"
         )
+        val savedShiftTimeModel = savedInstanceState?.getSerializable(SAVE_SHIFT_TIME) as? ShiftTimeModel
 
-        val timeModel = if (savedInstanceState == null) {
-            ShiftTimeModel(
-                totalShiftHours = 8,
-                serverTimeInMillis = timeManager.getAdjustedTime(),
-                shiftStartTime = "21/01/2024 08:00:00",
-            )
-
-        } else {
-            savedInstanceState.getSerializable(SAVE_SHIFT_TIME) as ShiftTimeModel
-        }
-
-
-        shiftTimerUtility = ShiftTimeClock(
-            timeManager,
-            timeModel,
-            this
+        val defaultWeekTimeModel = WeekTimeModel(
+            totalWeekCycleHours = 70,
+            serverTimeInMillis = timeManager.getAdjustedTime(),
+            weekCycleStartTime = "19/01/2024 08:00",
+            lastSavedCycleTime = "35:00"
         )
-      shiftTimerUtility.startTimer()
+        val savedWeekTimeModel = savedInstanceState?.getSerializable(SAVE_WEEK_TIME) as? WeekTimeModel
 
-        val weekTimeModel = if (savedInstanceState == null) {
-            WeekTimeModel(
-                totalWeekCycleHours = 70,
-                serverTimeInMillis = timeManager.getAdjustedTime(),
-                weekCycleStartTime = "19/01/2024 08:00",
-                lastSavedCycleTime = "35:00",
-            )
-        } else {
-            savedInstanceState.getSerializable(SAVE_WEEK_TIME) as WeekTimeModel
-        }
-        weekTimerUtility = WeekTimeClock(timeManager,weekTimeModel,this)
-        weekTimerUtility .startCycle()
+        val defaultDriveTimeModel = DriveTimeModel(
+            totalDriveHours = 14,
+            serverTimeInMillis = timeManager.getAdjustedTime(),
+            driveStartTime = "19/01/2024 08:00",
+            lastSavedDriveTime = "01:00"
+        )
+        val savedDriveTimeModel = savedInstanceState?.getSerializable(SAVE_DRIVE_TIME) as? DriveTimeModel
 
+        shiftTimerUtility = ShiftTimeClock(timeManager, savedShiftTimeModel ?: defaultShiftTimeModel, this)
+        weekTimerUtility = WeekTimeClock(timeManager, savedWeekTimeModel ?: defaultWeekTimeModel, this)
+        driveTimerUtility = DriveTimeClock(timeManager, savedDriveTimeModel ?: defaultDriveTimeModel, this)
+    }
 
-
-
-        val driveTimeModel = if (savedInstanceState == null) {
-            DriveTimeModel(
-                totalDriveHours = 14,
-                serverTimeInMillis = timeManager.getAdjustedTime(),
-                driveStartTime = "19/01/2024 08:00",
-                lastSavedDriveTime = "01:00",
-            )
-        } else {
-            savedInstanceState.getSerializable(SAVE_DRIVE_TIME) as DriveTimeModel
-        }
-
-
-        driveTimerUtility = DriveTimeClock(timeManager,driveTimeModel,this)
+    private fun setupTimers() {
+        shiftTimerUtility.startTimer()
+        weekTimerUtility.startCycle()
         driveTimerUtility.startDriveTimer()
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -254,7 +236,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onShiftTimeTick(timeModel: ShiftTimeModel) {
-        dashboardViewModel.updateShiftTimeData(timeModel)
+      dashboardViewModel.updateShiftTimeData(timeModel)
        /* AppLogger.e(TAG, "Consumed = ${timeModel.consumedTime}")
         AppLogger.e(TAG, "remaing = ${timeModel.remainingTime}")
         AppLogger.e(

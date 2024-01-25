@@ -79,7 +79,8 @@ class ShiftTimeClock(
                         progressPercentage = consumedShiftTimeMillis.toFloat() /shiftDurationMillis.toFloat() * 100
                     )
                     timeModel.serverTimeInMillis = timeManager.getAdjustedTime()
-                    saveShiftTimer(timeModel)
+                    shiftTimeModel = timeModel
+
                     timerCallback.onShiftTimeTick(timeModel)
                 }
 
@@ -98,10 +99,6 @@ class ShiftTimeClock(
         job.cancel()
     }
 
-    private fun saveShiftTimer(timeModel : ShiftTimeModel)
-    {
-        this.shiftTimeModel = timeModel
-    }
 
     fun getShiftTimer() : ShiftTimeModel
     {

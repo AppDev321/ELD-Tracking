@@ -11,35 +11,26 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewbinding.ViewBinding
-import com.core.extensions.TAG
-import com.core.extensions.showErrorToast
 import com.core.extensions.showShortToast
 import com.core.interfaces.MenuItemClickListener
 import com.core.module.IODispatcher
 import com.core.module.MainDispatcher
 import com.core.module.UnconfinedDispatcher
-import com.core.utils.AppLogger
-import com.dopsi.webapp.R
 import com.core.utils.DialogManager
 import com.core.utils.Inflate
 import com.core.utils.PreferenceManager
 import com.core.utils.ResourceHelper
+import com.dopsi.webapp.R
 import com.dopsi.webapp.activity.DashboardActivity
-import com.dopsi.webapp.fragment.EventsFragment
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) : Fragment() {
@@ -52,8 +43,10 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
 
     @Inject
     lateinit var resourceHelper: ResourceHelper
+
     @Inject
     lateinit var dialogManager: DialogManager
+
     @Inject
     lateinit var preferenceManager: PreferenceManager
 
@@ -93,6 +86,7 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         super.onViewCreated(view, savedInstanceState)
         initUserInterface(view)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -115,6 +109,7 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
                             startActivity(intent)
                         }
                     }
+
                     override fun onDialogDismissed() {
                         super.onDialogDismissed()
 
@@ -124,11 +119,11 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         }
     }
 
-    fun showToast(msg: String)
-    {
-       activity?.showShortToast(msg)
+    fun showToast(msg: String) {
+        activity?.showShortToast(msg)
     }
-     fun setFragmentMenu(requiredMenu:Int, menuItemListener: MenuItemClickListener) {
+
+    fun setFragmentMenu(requiredMenu: Int, menuItemListener: MenuItemClickListener) {
         activity?.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(requiredMenu, menu)
@@ -145,8 +140,8 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         super.onResume()
 
     }
-    fun setBackArrowOnFragment()
-    {
+
+    fun setBackArrowOnFragment() {
         activity?.let {
             it as DashboardActivity
             val navController = findNavController()
@@ -166,16 +161,4 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         }
     }
 
-     fun <T> collectFlow(
-        flow: Flow<T>,
-        block: T.() -> Unit
-    ) {
-        lifecycleScope.launch {
-            flow.collect {
-                withContext(mainDispatcher) {
-                    block(it)
-                }
-            }
-        }
-    }
 }

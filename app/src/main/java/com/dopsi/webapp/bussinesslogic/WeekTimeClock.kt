@@ -34,7 +34,6 @@ class WeekTimeClock(
                 val remainingTime = timeManager.convertMillisToTime(remainingTimeMillis)
                 val consumedTime = timeManager.convertMillisToTime(totalConsumedTimeMillis)
 
-
                 model.lastSavedCycleTime = consumedTime
                 model.remainingTime = remainingTime
                 model.consumedTime = model.lastSavedCycleTime
@@ -44,7 +43,8 @@ class WeekTimeClock(
                     (totalConsumedTimeMillis.toFloat() / totalWeekCycleHours.toFloat()) * 100
 
                 withContext(Dispatchers.Main) {
-                    timerCallback.onWeekCycleTick(model)
+
+                    timerCallback.onWeekCycleTick(model.copy())
                 }
                 delay(DateTimeFormat.shiftUpdateIntervalTime)
             }

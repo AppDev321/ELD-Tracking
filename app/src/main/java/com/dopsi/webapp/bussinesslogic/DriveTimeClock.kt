@@ -27,13 +27,12 @@ class DriveTimeClock(
 
     fun startDriveTimer() {
         job = CoroutineScope(Dispatchers.Main).launch {
+
             while (isActive && totalConsumedTimeMillis < totalWeekCycleHours) {
                 totalConsumedTimeMillis += DateTimeFormat.shiftUpdateIntervalTime
                 val remainingTimeMillis = (totalWeekCycleHours) - totalConsumedTimeMillis
                 val remainingTime = timeManager.convertMillisToTime(remainingTimeMillis)
                 val consumedTime = timeManager.convertMillisToTime(totalConsumedTimeMillis)
-
-
                 model.lastSavedDriveTime = consumedTime
                 model.remainingTime = remainingTime
                 model.consumedTime = model.lastSavedDriveTime
@@ -43,7 +42,7 @@ class DriveTimeClock(
                     (totalConsumedTimeMillis.toFloat() / totalWeekCycleHours.toFloat()) * 100
 
                 withContext(Dispatchers.Main) {
-                    timerCallback.onDriveTimeTick(model)
+                    timerCallback.onDriveTimeTick(model.copy())
                 }
                 delay(DateTimeFormat.shiftUpdateIntervalTime)
             }

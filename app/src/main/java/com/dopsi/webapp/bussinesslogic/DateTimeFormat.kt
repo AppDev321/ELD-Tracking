@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 object DateTimeFormat {
-    val completeDateRequired = "dd/MM/yyyy HH:mm"
-    val dateRequired = "dd/MM/yyyy"
-    val timeRequired = "HH:mm"
+    const val completeDateRequired = "dd/MM/yyyy HH:mm"
+    const val dateRequired = "dd/MM/yyyy"
+    const val timeRequired = "HH:mm"
 
     val timeRequiredFormat = SimpleDateFormat(timeRequired, Locale.getDefault())
     val dateRequiredFormat = SimpleDateFormat(dateRequired, Locale.getDefault())
@@ -14,5 +14,5 @@ object DateTimeFormat {
     val completeDateFormat = SimpleDateFormat(completeDateRequired, Locale.getDefault())
 
 
-    val shiftUpdateIntervalTime :Long = 60 * 1000
+    const val shiftUpdateIntervalTime :Long =  60*1000
 }

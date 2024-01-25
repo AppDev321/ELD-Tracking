@@ -15,6 +15,7 @@ data class DriveTimeModel(
     var driveEndTime: String ="",
     var progressPercentage: Float = 0F,
     var totalDriveHours: Int = 0,
+    var continuesDriveHour :Int = 0,
 
     var lastSavedDriveTimeInMillis:Long = 0,
     var lastSavedDriveTime : String = "",
