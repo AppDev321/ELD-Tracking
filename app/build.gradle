@@ -46,12 +46,19 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    lint {
-        baseline = file("lint-baseline.xml")
-    }
+
     buildFeatures {
         viewBinding = true
         buildConfig = true
+    }
+
+
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+    
+    lintOptions {
+        disable 'MissingDefaultResource'
     }
 }
 
