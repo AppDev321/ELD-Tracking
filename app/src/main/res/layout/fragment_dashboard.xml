@@ -207,13 +207,12 @@
             <com.dopsi.webapp.utils.ProgressWheel
                 android:id="@+id/pgBreak"
                 style="@style/progressDashboard"
-                app:countText="01:28"
-
+                app:countText="00:00"
                 app:definitionText="Break"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/pgShift"
-                app:percentage="90" />
+                app:percentage="0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

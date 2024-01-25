@@ -27,4 +27,8 @@
     <string name="txt_time_zone">Time Zone</string>
     <string name="txt_lang">Language</string>
     <string name="txt_odometer">Odometer</string>
+
+
+    <string name="break_alert_title">Break Required</string>
+    <string name="break_alert_msg">You are continuously drive you need to take break</string>
 </resources>

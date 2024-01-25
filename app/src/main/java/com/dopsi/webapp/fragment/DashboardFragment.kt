@@ -16,7 +16,6 @@ import com.dopsi.webapp.intefaces.DriverStatusEvent
 import com.dopsi.webapp.viewmodel.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -70,29 +69,23 @@ class DashboardFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
                 dashboardViewModel.shiftTimeFlow.collect {
-                    withContext(mainDispatcher)
-                    {
-                        with(it) {
-                            with(viewDataBinding.pgShift) {
-                                val progress = progressPercentage.toInt()
-                                setPercentage(progress)
-                                setStepCountText(consumedTime)
-                            }
+                    with(it) {
+                        with(viewDataBinding.pgShift) {
+                            val progress = progressPercentage.toInt()
+                            setPercentage(progress)
+                            setStepCountText(consumedTime)
                         }
                     }
                 }
             }
             launch {
                 dashboardViewModel.weekCycleTimeFlow.collect {
-                    withContext(mainDispatcher)
+                    with(it)
                     {
-                        with(it)
-                        {
-                            with(viewDataBinding.pgCycle) {
-                                val progress = progressPercentage.toInt()
-                                setPercentage(progress)
-                                setStepCountText(consumedTime)
-                            }
+                        with(viewDataBinding.pgCycle) {
+                            val progress = progressPercentage.toInt()
+                            setPercentage(progress)
+                            setStepCountText(consumedTime)
                         }
                     }
                 }
@@ -100,14 +93,23 @@ class DashboardFragment :
 
             launch {
                 dashboardViewModel.driveTimeFlow.collect {
-                    withContext(mainDispatcher)
+                    with(it)
                     {
-                        with(it)
-                        {
-                            viewDataBinding.apply {
-                                driveProgress.progress = progressPercentage
-                                txtDriveTime.text = consumedTime
-                            }
+                        viewDataBinding.apply {
+                            driveProgress.progress = progressPercentage
+                            txtDriveTime.text = consumedTime
+                        }
+                    }
+
+                }
+            }
+            launch {
+                dashboardViewModel.breakTimeFlow.collect {
+                    with(it) {
+                        with(viewDataBinding.pgBreak) {
+                            val progress = progressPercentage.toInt()
+                            setPercentage(progress)
+                            setStepCountText(consumedTime)
                         }
                     }
                 }

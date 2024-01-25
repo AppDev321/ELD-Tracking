@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.core.base.BaseViewModel
 import com.core.interfaces.BaseNavigator
+import com.dopsi.webapp.bussinesslogic.model.BreakTimeModel
 import com.dopsi.webapp.bussinesslogic.model.DriveTimeModel
 import com.dopsi.webapp.bussinesslogic.model.ShiftTimeModel
 import com.dopsi.webapp.bussinesslogic.model.WeekTimeModel
@@ -30,6 +31,9 @@ class DashboardViewModel @Inject constructor() :
     private val _driveTimeFlow = MutableStateFlow<DriveTimeModel>(DriveTimeModel())
     val driveTimeFlow = _driveTimeFlow.asStateFlow()
 
+    private val _breakTimeFlow = MutableStateFlow<BreakTimeModel>(BreakTimeModel())
+    val breakTimeFlow = _breakTimeFlow.asStateFlow()
+
 
 
     fun updateShiftTimeData(newValue: ShiftTimeModel) {
@@ -41,6 +45,10 @@ class DashboardViewModel @Inject constructor() :
     }
     fun updateDriveTimeData(newValue: DriveTimeModel) {
         _driveTimeFlow.value = newValue
+    }
+
+    fun updateBreakTimeData(newValue: BreakTimeModel) {
+        _breakTimeFlow.value = newValue
     }
 
 }

@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -13,9 +14,12 @@ import com.core.extensions.TAG
 import com.core.utils.AppLogger
 import com.core.utils.DialogManager
 import com.dopsi.webapp.R
+import com.dopsi.webapp.bussinesslogic.AppConfigurations
+import com.dopsi.webapp.bussinesslogic.BreakTimeClock
 import com.dopsi.webapp.bussinesslogic.DriveTimeClock
 import com.dopsi.webapp.bussinesslogic.ShiftTimeClock
 import com.dopsi.webapp.bussinesslogic.WeekTimeClock
+import com.dopsi.webapp.bussinesslogic.model.BreakTimeModel
 import com.dopsi.webapp.bussinesslogic.model.DriveTimeModel
 import com.dopsi.webapp.bussinesslogic.model.ShiftTimeModel
 import com.dopsi.webapp.bussinesslogic.model.TimeManager
@@ -36,6 +40,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         const val SAVE_SHIFT_TIME = "shift_time"
         const val SAVE_WEEK_TIME = "week_time"
         const val SAVE_DRIVE_TIME = "drive_time"
+        const val SAVE_BREAK_TIME = "break_time"
     }
 
     private lateinit var binding: ActivityDashboardBinding
@@ -46,7 +51,8 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var shiftTimerUtility: ShiftTimeClock
     private lateinit var weekTimerUtility: WeekTimeClock
     private lateinit var driveTimerUtility: DriveTimeClock
-
+    private lateinit var breakTimerUtility: BreakTimeClock
+    private  var breakAlertDialogShow = false
 
     @Inject
     lateinit var timeManager: TimeManager
@@ -57,35 +63,50 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setupTimeModels(savedInstanceState: Bundle?) {
-        val serverTime = "21/01/2024 15:01"
+        val serverTime = "21/01/2024 10:00"
         timeManager.setServerTime(serverTime)
 
+        //For Shift
         val defaultShiftTimeModel = ShiftTimeModel(
-            totalShiftHours = 8,
+            totalShiftHours = AppConfigurations.totalShiftHours,
             serverTimeInMillis = timeManager.getAdjustedTime(),
             shiftStartTime = "21/01/2024 08:00:00"
         )
         val savedShiftTimeModel = savedInstanceState?.getSerializable(SAVE_SHIFT_TIME) as? ShiftTimeModel
 
+        //For WeekCycle
         val defaultWeekTimeModel = WeekTimeModel(
-            totalWeekCycleHours = 70,
+            totalWeekCycleHours = AppConfigurations.totalWeekCycleHours,
             serverTimeInMillis = timeManager.getAdjustedTime(),
             weekCycleStartTime = "19/01/2024 08:00",
             lastSavedCycleTime = "35:00"
         )
         val savedWeekTimeModel = savedInstanceState?.getSerializable(SAVE_WEEK_TIME) as? WeekTimeModel
 
+        //For Driving
         val defaultDriveTimeModel = DriveTimeModel(
-            totalDriveHours = 14,
+            totalDriveHours = AppConfigurations.totalDriveHours,
+            maxDriveHour = AppConfigurations.maxDriveTime,
             serverTimeInMillis = timeManager.getAdjustedTime(),
             driveStartTime = "19/01/2024 08:00",
             lastSavedDriveTime = "01:00"
         )
         val savedDriveTimeModel = savedInstanceState?.getSerializable(SAVE_DRIVE_TIME) as? DriveTimeModel
 
+
+        //For Break
+        val defaultBreakTimeModel = BreakTimeModel(
+            totalBreakMin = AppConfigurations.breakTimeInMin,
+        )
+        val savedBreakTimeModel = savedInstanceState?.getSerializable(SAVE_BREAK_TIME) as? BreakTimeModel
+
+
+
         shiftTimerUtility = ShiftTimeClock(timeManager, savedShiftTimeModel ?: defaultShiftTimeModel, this)
         weekTimerUtility = WeekTimeClock(timeManager, savedWeekTimeModel ?: defaultWeekTimeModel, this)
         driveTimerUtility = DriveTimeClock(timeManager, savedDriveTimeModel ?: defaultDriveTimeModel, this)
+        breakTimerUtility = BreakTimeClock(timeManager,savedBreakTimeModel?:defaultBreakTimeModel,this)
+
     }
 
     private fun setupTimers() {
@@ -98,6 +119,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         outState.putSerializable(SAVE_SHIFT_TIME, shiftTimerUtility.getShiftTimer())
         outState.putSerializable(SAVE_WEEK_TIME, weekTimerUtility.getCycleTimer())
         outState.putSerializable(SAVE_DRIVE_TIME, driveTimerUtility.getDriveTimer())
+        outState.putSerializable(SAVE_BREAK_TIME,breakTimerUtility.getBreakTimer())
 
         super.onSaveInstanceState(outState)
     }
@@ -251,6 +273,35 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onDriveTimeTick(model: DriveTimeModel) {
         dashboardViewModel.updateDriveTimeData(model)
+    }
+    override fun onBreakTimeTick(model: BreakTimeModel) {
+        dashboardViewModel.updateBreakTimeData(model)
+    }
+
+    override fun onBreakTimeReached() {
+        if(breakAlertDialogShow.not()) {
+            breakAlertDialogShow = true
+            dialogManager.twoButtonDialog(
+                context = this,
+                title = getString(R.string.break_alert_title),
+                message = getString(R.string.break_alert_msg),
+                spannedMessage = false,
+                alertDialogListener = object : DialogManager.AlertDialogListener {
+                    override fun onPositiveButtonClicked() {
+                        isDriverStartedBreak()
+                    }
+                    override fun onDialogDismissed() {
+                        breakAlertDialogShow = false
+                        super.onDialogDismissed()
+                    }
+                }
+            )
+        }
+    }
+
+    override fun isDriverStartedBreak() {
+        driveTimerUtility.breakTimeConsumed(true)
+        breakTimerUtility.startBreakTime()
     }
 
 

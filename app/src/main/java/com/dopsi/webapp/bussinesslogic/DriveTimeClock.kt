@@ -16,18 +16,30 @@ class DriveTimeClock(
     private val timeManager: TimeManager,
     private var model: DriveTimeModel,
     private val timerCallback: TimerCallback
-): Serializable {
-
-
+) : Serializable {
+    private var maxContinuesHourDrive = model.maxDriveHour
+    private var continuesHour: Int = 0
+    private val hoursInMilliseconds: Long = 60*1000//1 * 60 * 60 * 1000 // 1 hour
 
     private val totalWeekCycleHours = model.totalDriveHours * 60 * 60 * 1000
     private var totalConsumedTimeMillis: Long =
         timeManager.convertLongToTime(model.lastSavedDriveTime)
     private var job: Job? = null
-
+    private var hourUpdateJob: Job? = null
     fun startDriveTimer() {
         job = CoroutineScope(Dispatchers.Main).launch {
-
+            hourUpdateJob = CoroutineScope(Dispatchers.Default).launch {
+                while (isActive) {
+                    delay(hoursInMilliseconds)
+                    continuesHour++
+                    if (continuesHour > maxContinuesHourDrive && model.isBreakConsumed.not()) {
+                        //Trigger Alert for taking break
+                        withContext(Dispatchers.Main){
+                            timerCallback.onBreakTimeReached()
+                        }
+                    }
+                }
+            }
             while (isActive && totalConsumedTimeMillis < totalWeekCycleHours) {
                 totalConsumedTimeMillis += DateTimeFormat.shiftUpdateIntervalTime
                 val remainingTimeMillis = (totalWeekCycleHours) - totalConsumedTimeMillis
@@ -40,6 +52,7 @@ class DriveTimeClock(
                 model.remainingTimeInMillis = remainingTimeMillis
                 model.progressPercentage =
                     (totalConsumedTimeMillis.toFloat() / totalWeekCycleHours.toFloat()) * 100
+                model.continuesDriveHour = continuesHour
 
                 withContext(Dispatchers.Main) {
                     timerCallback.onDriveTimeTick(model.copy())
@@ -54,13 +67,25 @@ class DriveTimeClock(
         }
     }
 
+
+    /*
+     Because hour job run in separate thread if
+     parent close than it will not affect the hour
+     job so that;s why we need to cancel hour job
+     */
+
     fun stopCycle() {
         job?.cancel()
+        hourUpdateJob?.cancel()
     }
-
 
 
     fun getDriveTimer(): DriveTimeModel {
         return this.model
+    }
+
+    fun breakTimeConsumed(isConsumed:Boolean)
+    {
+        model.isBreakConsumed = isConsumed
     }
 }
