@@ -36,4 +36,5 @@
     <color name="driving">#17BEE2</color>
     <color name="sleeper">#9198A3</color>
     <color name="duty_off">#E04E4E</color>
+    <color name="duty_change_dialog_top_bg">#EEEEEE</color>
 </resources>

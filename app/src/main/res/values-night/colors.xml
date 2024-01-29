@@ -14,5 +14,5 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="black">#FFFFFF</color>
     <color name="white">#232323</color>
-
+    <color name="duty_change_dialog_top_bg">@color/white</color>
 </resources>
